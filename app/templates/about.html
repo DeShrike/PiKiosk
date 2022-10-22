@@ -1,0 +1,37 @@
+{% extends '_layout.html' %}
+
+{% block title %}
+About
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+	<div class="col-md-12 col-12">
+		<h1>About</h1>
+		<p>%% model.intro %%</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 col-12">
+		<p>Control the <a href="%% url_for('index') %%">LedBox</a></p>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+	$(function () {
+		$("h1").html("About LedBox");
+	});
+
+</script>
+
+{% endblock %}
