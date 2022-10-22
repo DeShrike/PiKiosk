@@ -1,5 +1,6 @@
 import log
 from kiosk import Kiosk
+from repository import Repository
 import logging
 import config
 import threading
@@ -19,8 +20,11 @@ def main():
     global kiosk
 
     try:
+        logger.info("Loading repository")
+        repository = Repository(REPOSITORY_FILE)
+        app.repository = repository
         logger.info("Starting Kiosk")
-        kiosk = Kiosk()
+        kiosk = Kiosk(repository)
         x = threading.Thread(target = kiosk.loop)
         logger.info("Starting main loop")
         x.start()

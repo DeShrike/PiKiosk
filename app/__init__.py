@@ -4,6 +4,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+repository = None
+
 class CustomFlask(Flask):
     jinja_options = Flask.jinja_options.copy()
     jinja_options.update(dict(

@@ -4,3 +4,4 @@ class ViewModel():
         self.image_name = None
         self.background_color = "#123456"
         self.intro = "Intro tekst"
+        self.items = None
