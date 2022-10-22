@@ -1,12 +1,11 @@
 {% extends '_layout.html' %}
 
 {% block title %}
-LED Box
+Pi Kiosk
 {% endblock %}
 
 {% block head %}
 
-<script type="text/javascript" src="%% url_for('static', filename='js/socket.io.js') %%"></script>
 <script type="text/javascript" src="%% url_for('static', filename='js/vue3/vue.global.js') %%"></script>
 <!-- <script type="text/javascript" src="%% url_for('static', filename='js/axios/axios.js') %%"></script> -->
 
@@ -15,7 +14,7 @@ LED Box
 
 {% block body %}
 
-<div id="ledbox-vue">
+<div id="kiosk-vue">
 
 	<div class="row">
 		<div class="col-md-12 col-12" v-show="connected">
@@ -76,6 +75,11 @@ LED Box
 		<div class="col-md-3 col-3"></div>
 	</div>
 
+</div>
+
+<div>
+	<img src="%% url_for('static', filename='img/coderdojo-icon.svg') %%" alt="Coderdojo" />
+	<img src="%% url_for('static', filename='img/raspberry-pi-icon.svg') %%" alt="Raspberry Pi" />
 </div>
 
 {% endblock %}

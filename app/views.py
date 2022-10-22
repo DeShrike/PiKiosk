@@ -13,15 +13,30 @@ def send_favicon():
 def about():
     model = ViewModel()
     model.title = "About"
-    model.intro = "This is the 'about' text"
 
     return render_template("about.html", model = model)
 
 @app.route("/")
 def index():
-    # logger.info("GET /")
     model = ViewModel()
 
-    model.current_action = "(not connected)"
 
     return render_template("index.html", model = model)
+
+@app.route("/image_centered")
+def image_centered():
+    model = ViewModel()
+
+    model.title = "sometitle"
+    model.image_name = "images/testimg.jpg"
+
+    return render_template("image_centered.html", model = model)
+
+@app.route("/image_fullscreen")
+def image_fs():
+    model = ViewModel()
+
+    model.title = "sometitle"
+    model.image_name = "images/testimg.jpg"
+
+    return render_template("image_full_screen.html", model = model)

@@ -1,0 +1,32 @@
+{% extends '_bare.html' %}
+
+{% block title %}
+Pi Kiosk
+{% endblock %}
+
+{% block head %}
+
+<style>
+	div.im {
+ 	 display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	height: 800px;
+}
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="im">
+	<img src="%% url_for('static', filename=model.image_name) %%" alt="%% model.title %%" class="centerx" />
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
+
+{% endblock %}

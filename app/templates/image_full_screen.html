@@ -1,0 +1,43 @@
+{% extends '_bare.html' %}
+
+{% block title %}
+Pi Kiosk
+{% endblock %}
+
+{% block head %}
+
+<style>
+	.kiosk-imageX
+	{
+		width: 100%;
+		max-height: 100%;
+	}
+
+</style>
+
+<script type="text/javascript">
+function resizeToMax (id) {
+    var img = document.getElementById(id);
+    myImage = new Image();
+    myImage.src = img.src;
+    if (window.innerWidth / myImage.width < window.innerHeight / myImage.height) {
+        img.style.width = "100%";
+    } else {
+        img.style.height = "100%";
+    }
+}
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+<img id="kiosk-image" onload="resizeToMax(this.id)" class="kiosk-image center" src="%% url_for('static', filename=model.image_name) %%" alt="%% model.title %%" />
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
+
+{% endblock %}

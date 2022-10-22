@@ -11,7 +11,6 @@ class CustomFlask(Flask):
         variable_end_string='%%',
     ))
 
-
 app = CustomFlask(__name__)
 app.secret_key = "RTR10Rtnttrrwrttri76#"
 app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"

@@ -1,6 +1,6 @@
 class ViewModel():
     def __init__(self):
-        self.title = "LED Box"
-        self.plugins = []
-        self.current_action = ""
-        self.intro = None
+        self.title = "Pi Kiosk"
+        self.image_name = None
+        self.background_color = "#123456"
+        self.intro = "Intro tekst"
