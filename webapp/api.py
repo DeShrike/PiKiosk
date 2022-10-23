@@ -1,4 +1,5 @@
-from app import app
+# TODO: Delete
+from webapp import webapp
 import logging
 
 logger = logging.getLogger(__name__)

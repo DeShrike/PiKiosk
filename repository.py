@@ -12,6 +12,25 @@ class Item():
       self.duration = duration
       self.background_color = background_color
       self.fullscreen = fullscreen
+   
+   def build_relative_url(self) -> str:
+      if self.kind == "url":
+         return self.url        
+      elif self.kind == "image":
+         url = "/image_fullscreen/" if self.fullscreen else "/image_centered/"
+         url += self.url
+         url += f"/{self.background_color.replace('#','')}"
+         return url        
+      else:
+         return None
+
+   def build_url(self) -> str:
+      if self.kind == "url":
+         return self.url        
+      elif self.kind == "image":
+         return f"http://127.0.0.1:{config.PORT}{self.build_relative_url()}"
+      else:
+         return None
 
 class Repository():
    def __init__(self, filename: str):

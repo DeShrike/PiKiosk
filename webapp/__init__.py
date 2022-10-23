@@ -13,13 +13,17 @@ class CustomFlask(Flask):
         variable_end_string='%%',
     ))
 
-app = CustomFlask(__name__)
-app.secret_key = "RTR10Rtnttrrwrttri76#"
-app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
-app.permanent_session_lifetime = timedelta(days = 2)
+webapp = CustomFlask(__name__)
+webapp.secret_key = "RTR10Rtnttrrwrttri76#"
+webapp.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
 
-from app import views
-from app import api
+webapp.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5
+webapp.config['UPLOAD_EXTENSIONS'] = [".jpg", ".png", ".gif"]
+
+webapp.permanent_session_lifetime = timedelta(days = 2)
+
+from webapp import views
+#from webapp import api
 
 logger.info("App __init__")
 

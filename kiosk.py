@@ -62,17 +62,9 @@ class Kiosk():
     def send_item_to_browser(self):
         item = self.repository.items[self.repo_index]
         logger.info(f"Loading Item: {item.url}")
-        if item.kind == "url":
-            self.run_command("Page.navigate", url=item.url)        
-        elif item.kind == "image":
-            url = f"http://127.0.0.1:{config.PORT}"
-            if item.fullscreen:
-                url += "/image_fullscreen/"
-            else:
-                url += "/image_centered/"
-            url += item.url.replace("/", "%2F")
-            url += f"/{item.background_color.replace('#','')}"
-            self.run_command("Page.navigate", url=url)        
+        url = item.build_url()
+        self.run_command("Page.navigate", url=item.url)        
+
         return item.duration
 
     def loop(self):

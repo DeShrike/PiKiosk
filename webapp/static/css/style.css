@@ -33,6 +33,10 @@
 	height: 50px;
 }
 
+.spacer-two {
+	height: 25px;
+}
+
 html.bare, body.bare {
 	padding: 0;
 	margin: 0;
@@ -71,14 +75,17 @@ img.logo-raspberry-pi
 	max-height: 24px;
 }
 
-.main-body
-{
+.main-body {
 	min-height: 600px;
 }
 
-footer
-{
+footer {
 	padding-top: 15px;
 	padding-bottom: 10px;
 	background-color: black;
+}
+
+input[type='file'] {
+	padding-top: 5px;
+	padding-left: 5px;
 }

@@ -1,0 +1,152 @@
+{% extends '_layout.html' %}
+
+{% block title %}
+Pi Kiosk
+{% endblock %}
+
+{% block head %}
+
+<!--<script type="text/javascript" src="%% url_for('static', filename='js/vue3/vue.global.js') %%"></script>-->
+
+{% endblock %}
+
+{% block body %}
+
+<div id="kiosk-vue">
+
+	<!--<div class="row">
+		<div class="col-12">
+			<div class="ms-alert ms-outline-success info-block">
+				{{ counter }} {{ info }}
+			</div>
+		</div>
+	</div>-->
+	
+	<div class="row">
+		<div class="col-md-12 col-12 spacer-one">&nbsp;</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-6">
+			<h2>Kiosk Schedule</h2>
+		</div>
+		<div class="col-sm-6 ms-text-right">
+			<a href="%% url_for('new_item') %%" class="ms-btn btn-secondary"><i class="fa-solid fa-plus"></i> Add New</a>
+		</div>
+	</div>
+
+	<!--<div class="row">
+		<div class="col-md-12 col-1 spacer-one">
+			<a href="/new" class="ms-btn ms-success">Add New</a>
+		</div>
+	</div>-->
+
+	<div class="row">
+		<div class="col-md-12 col-12">
+			<table class="ms-table">
+				<thead>
+				<tr>
+					<th>Type</th>
+					<th>Url / Image name</th>
+					<th>Fullscreen</th>
+					<th>Duration</th>
+					<th>Background<br/>Color</th>
+					<th></th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for item in model.items: %}
+				<tr>
+					<td>%% item['item'].kind %%</td>
+					<td>
+						%% item['item'].url %%
+
+						{% if item['item'].kind == 'image' %}
+							<a href="%% item['url'] %%" target="_blank" class=""><i class="fa-solid fa-eye"></i></a>
+						{% endif %}
+					</td>
+					<td>
+						{% if item['item'].kind == 'url' %}
+						{% else %}
+							%% item['item'].fullscreen %%
+						{% endif %}
+					</td>
+					<td>%% item['item'].duration %%</td>
+					<td>
+						{% if item['item'].kind == 'url' %}
+						{% else %}
+							%% item['item'].background_color %%
+						{% endif %}
+					</td>
+					<td>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-up"><i class="fa-solid fa-arrow-up"></i></button>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-down"><i class="fa-solid fa-arrow-down"></i></button>
+					</td>
+					<td>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-danger ms-small ms-rounded js-delete"><i class="fa-solid fa-trash"></i></button>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-success ms-small ms-rounded js-activate"><i class="fa-solid fa-play"></i></button>
+					</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
+	</div>
+
+	<form method="post" action="%% url_for('do_action') %%" id="actform">
+		<input type="hidden" name="index" id="index" />
+		<input type="hidden" name="ect" id="act" />
+	</form>
+
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
+
+<script type="text/javascript">
+
+	function init_schedule_page()
+	{
+		$(".js-move-up").on("click", (e) => {
+			const index = $(e.currentTarget).data("index");
+			$("#index").val(index);
+			$("#act").val("move-up");
+			document.getElementById("actform").submit();
+		});
+
+		$(".js-move-down").on("click", (e) => {
+			const index = $(e.currentTarget).data("index");
+			$("#index").val(index);
+			$("#act").val("move-down");
+			document.getElementById("actform").submit();
+		});
+		
+		$(".js-delete").on("click", (e) => {
+			const index = $(e.currentTarget).data("index");
+			$("#index").val(index);
+			$("#act").val("delete");
+			document.getElementById("actform").submit();
+		});
+
+		$(".js-activate").on("click", (e) => {
+			const index = $(e.currentTarget).data("index");
+			$("#index").val(index);
+			$("#act").val("activate");
+			document.getElementById("actform").submit();
+		});
+	}
+
+	$(function () {
+		init_schedule_page();
+	}); // => document ready callback
+</script>
+
+{% endblock %}

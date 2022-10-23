@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 logger.info("Starting server")
 logger.info("Initializing Flask")
 
-from app import app
+from webapp import webapp
 
 def main():
     kiosk = None
@@ -19,7 +19,7 @@ def main():
     try:
         logger.info("Loading repository")
         repository = Repository(config.REPOSITORY_FILE)
-        app.repository = repository
+        webapp.repository = repository
 
         logger.info("Starting Kiosk")
         kiosk = Kiosk(repository)
@@ -29,7 +29,7 @@ def main():
         logger.info("Starting main loop")
         loop_thread.start()
 
-        app.run(debug=False, port=config.PORT, host=config.HOST, use_reloader=False)
+        webapp.run(debug=False, port=config.PORT, host=config.HOST, use_reloader=False)
     except Exception as e:
         logger.error(e)
     else:
