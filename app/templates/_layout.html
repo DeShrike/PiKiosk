@@ -11,6 +11,10 @@
 		<link rel="stylesheet" href="%% url_for('static', filename='css/minstyle.io.css') %%">
 		<link rel="stylesheet" href="%% url_for('static', filename='css/style.css') %%">
 
+		<link href="%% url_for('static', filename='fontawesome/css/fontawesome.min.css') %%" rel="stylesheet">
+		<link href="%% url_for('static', filename='fontawesome/css/brands.min.css') %%" rel="stylesheet">
+		<link href="%% url_for('static', filename='fontawesome/css/solid.min.css') %%" rel="stylesheet">
+
 		<script type="text/javascript" src="%% url_for('static', filename='js/cash.min.js') %%"></script>
 
 		{% block head %}
@@ -18,28 +22,38 @@
 
 	</head>
 	<body class="dark">
-		<div class="ms-content">
+		<div class="ms-contentXX">
 			<div class="ms-menu">
 			    <div class="ms-menu-logo">
-			    	<p><a href="%% url_for('about') %%"><img src="%% url_for('static', filename='img/logo.png') %%" alt="LED Box" /></a></p>
+			    	<p><a href="%% url_for('index') %%"><img src="%% url_for('static', filename='img/coderdojo-logo.png') %%" alt="Pi Kiosk" /></a></p>
 			    </div>
 			    <div class="ms-menu-logo">
 			    	<p>%% model.title %%</p>
 			    </div>
-			    <div class="ms-menu-logo">
-			    	<p class="ms-text-info" id="current-action">%% model.current_action %%</p>
-			    </div>
+			    <!-- <div class="ms-menu-logo">
+			    	<p><a href="%% url_for('about') %%">About</a></p>
+			    </div> -->
 			</div>
 		</div>
 
-		<div class="container">
+		<div class="container main-body">
 		{% block body %}
 		{% endblock %}
 		</div>
 
 		<footer class="ms-footer">
 			<div class="container">
-				<p>Copyright - &copy; <b>Coderdojo Roeselare</b></p>
+				<div class="row">
+					<div class="col-sm ms-text-right">
+						<img class="logo logo-coderdojo" src="%% url_for('static', filename='img/coderdojo-icon.svg') %%" alt="Coderdojo" />
+					</div>
+					<div class="col-sm ms-text-center">
+						<p>Copyright &copy; 2022 <b>Coderdojo Roeselare</b></p>
+					</div>
+					<div class="col-sm ms-text-left">
+						<img class="logo logo-raspberry-pi" src="%% url_for('static', filename='img/raspberry-pi-icon.svg') %%" alt="Raspberry Pi" />
+					</div>
+				</div>
 			</div>
 		</footer>
 

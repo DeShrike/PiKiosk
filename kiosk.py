@@ -2,9 +2,10 @@ import json
 import time
 import requests
 import logging
+
 from repository import Repository
 from websocket import create_connection
-from config import *
+import config
 
 logger = logging.getLogger(__name__)
 
@@ -12,14 +13,14 @@ class Kiosk():
     def __init__(self, repo: Repository):
         self.request_id = 0
         self.ws_url = None
-        self.port = CHROMIUM_DEBUG_PORT
-        self.ws_conn = self.connect_browser()
+        self.port = config.CHROMIUM_DEBUG_PORT
+        self.ws_conn = None
         self.must_stop = False
         self.repository = repo
         logger.info("Connected")
         self.show_current()
 
-    def connect_browser(self):
+    def connect_to_browser(self):
         logger.info("Connecting")
         sleep_step = 0.25
         wait_seconds = 10
@@ -28,13 +29,14 @@ class Kiosk():
                 url = f"http://127.0.0.1:{self.port}/json"
                 resp = requests.get(url).json()
                 self.ws_url = resp[0]["webSocketDebuggerUrl"]
-                return create_connection(self.ws_url)
+                self.ws_conn = create_connection(self.ws_url)
+                return
             except requests.exceptions.ConnectionError:
                 logger.info("Waiting")
                 time.sleep(sleep_step)
                 wait_seconds -= sleep_step
 
-        raise Exception("Unable to connect to chromium")
+        raise Exception("Unable to connect to browser")
 
     def show_current(self):
         url = f"http://127.0.0.1:{self.port}/json"
@@ -63,7 +65,7 @@ class Kiosk():
         if item.kind == "url":
             self.run_command("Page.navigate", url=item.url)        
         elif item.kind == "image":
-            url = f"http://127.0.0.1:{PORT}"
+            url = f"http://127.0.0.1:{config.PORT}"
             if item.fullscreen:
                 url += "/image_fullscreen/"
             else:
@@ -74,26 +76,44 @@ class Kiosk():
         return item.duration
 
     def loop(self):
+        if self.ws_conn is None:
+            return
+
         self.repo_index = -1
         self.wait_duration = 10
         current_item_start_time = time.perf_counter()
+
         logger.info(f"Waiting {self.wait_duration} seconds")
         while not self.must_stop:
-            #print(f"Waiting {self.wait_duration} seconds: {time.perf_counter() - current_item_start_time:.2f}  ")
             if time.perf_counter() - current_item_start_time > self.wait_duration:
                 self.repo_index += 1
-                if self.repo_index >= len(self.repository.items):
+                if self.repo_index >= self.repository.item_count():
                     self.repo_index = 0
+
                 self.wait_duration = self.send_item_to_browser()
                 current_item_start_time = time.perf_counter()
                 logger.info(f"Waiting {self.wait_duration} seconds")
+
             time.sleep(1)
-    
+
+    def execute_javascript(self):
+        js = """
+        var sel = '[role="heading"][aria-level="2"]';
+        var headings = document.querySelectorAll(sel);
+        headings = [].slice.call(headings).map((link) => { return link.innerText });
+        JSON.stringify(headings);
+        """
+        result = self.run_command(self.ws_conn, 'Runtime.evaluate', expression=js)
+        headings = json.loads(result['result']['result']['value'])
+        for heading in headings:
+            print(heading)
+
     def stop(self):
         self.must_stop = True
 
 def main():
     kiosk = Kiosk()
+    kiosk.connect_to_browser()
     kiosk.show_current()
     time.sleep(5)
     kiosk.run_command("Page.navigate", url="https://www.bing.com")
@@ -102,17 +122,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-#js = """
-#var sel = '[role="heading"][aria-level="2"]';
-#var headings = document.querySelectorAll(sel);
-#headings = [].slice.call(headings).map((link)=>{return link.innerText});
-#JSON.stringify(headings);
-#"""
-#result = run_command(conn, 'Runtime.evaluate', expression=js)
-#headings = json.loads(result['result']['result']['value'])
-#for heading in headings:
-#    print(heading)
-#browser.terminate()
-

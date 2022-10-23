@@ -20,7 +20,7 @@ git clone
    public = no
    browseable = yes
 
-[kioskimages]
+[pikioskimages]
    path = /home/pi/pikiosk/app/static/images
    writeable = yes
    create mask = 0666
@@ -32,6 +32,5 @@ sudo smbpasswd -a pi
 
 sudo systemctl restart smbd
 
-
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3001
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
 

@@ -1,7 +1,7 @@
 import logging
 import json
 from os.path import exists
-from config import *
+import config
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +18,11 @@ class Repository():
       self.items = []
       self.filename = filename
       self.load()
+      if self.item_count() == 0:
+         # Add a few dummy items.
+         self.add("cat1.jpg", "image", 60, False, "#005500")
+         self.add("cat2.jpg", "image", 60, False, "#654321")
+         self.add("cat3.jpg", "image", 60, True, "#000021")
 
    def add(self, url: str, kind: str, duration: int, fullscreen: bool, background_color: str):
       item = Item(url, kind, duration, fullscreen, background_color)
@@ -28,25 +33,28 @@ class Repository():
       with open(self.filename, "w") as fo:
          fo.write(json.dumps(d))
 
+   def item_count(self) -> int:
+      return len(self.items)
+
    def load(self):
       self.items = []
       if exists(self.filename) == False:
          return
       with open(self.filename, "r") as fi:
          d = fi.read()
-         j = json.loads(d)
-         for i in j:
-            item = Item(**i)
+         jsn = json.loads(d)
+         for jsnitem in jsn:
+            item = Item(**jsnitem)
             self.items.append(item)
 
 def main():
-   repo = Repository(REPOSITORY_FILE)
+   repo = Repository(config.REPOSITORY_FILE)
    print(len(repo.items))
-   repo.add("testimg.jpg", "image", 60, True, "#123456")
+   repo.add("cat2.jpg", "image", 60, True, "#123456")
    repo.add("https://www.google.com", "url", 60, False, None)
-   repo.add("cat.jpeg", "image", 60, False, "#005500")
-   repo.add("testimg.jpg", "image", 60, False, "#654321")
-   repo.add("tired_cat.jpg", "image", 60, True, "#000021")
+   repo.add("cat1.jpg", "image", 60, False, "#005500")
+   repo.add("cat2.jpg", "image", 60, False, "#654321")
+   repo.add("cat3.jpg", "image", 60, True, "#000021")
    repo.save()
 
 if __name__ == "__main__":

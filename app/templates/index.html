@@ -13,17 +13,30 @@ Pi Kiosk
 {% block body %}
 
 <div id="kiosk-vue">
-	<div class="row">
+
+	<!--<div class="row">
 		<div class="col-12">
 			<div class="ms-alert ms-outline-success info-block">
 				{{ counter }} {{ info }}
 			</div>
 		</div>
+	</div>-->
+	
+	<div class="row">
+		<div class="col-md-12 col-12 spacer-one">&nbsp;</div>
 	</div>
 
 	<div class="row">
-		<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
+		<div class="col-md-12 ms-text-right">
+			<a href="%% url_for('new_item') %%" class="ms-btn btn-secondary"><i class="fa-solid fa-plus"></i> Add New</a>
+		</div>
 	</div>
+
+	<!--<div class="row">
+		<div class="col-md-12 col-1 spacer-one">
+			<a href="/new" class="ms-btn ms-success">Add New</a>
+		</div>
+	</div>-->
 
 	<div class="row">
 		<div class="col-md-12 col-12">
@@ -36,6 +49,7 @@ Pi Kiosk
 					<th>Duration</th>
 					<th>Background<br/>Color</th>
 					<th></th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -46,7 +60,8 @@ Pi Kiosk
 					<td>%% item.fullscreen %%</td>
 					<td>%% item.duration %%</td>
 					<td>%% item.background_color %%</td>
-					<td><button class="ms-btn ms-danger">x</button></td>
+					<td><button class="ms-btn ms-danger ms-small ms-rounded"><i class="fa-solid fa-trash"></i></button></td>
+					<td><button class="ms-btn ms-success ms-small ms-rounded"><i class="fa-solid fa-play"></i></button></td>
 				</tr>
 				{% endfor %}
 				</tbody>
@@ -60,17 +75,6 @@ Pi Kiosk
 
 	<div class="row">
 		<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
-	</div>
-</div>
-
-<div>
-	<div class="row">
-		<div class="col-12">
-
-			<img class="logo" src="%% url_for('static', filename='img/coderdojo-icon.svg') %%" alt="Coderdojo" />
-			<img class="logo" src="%% url_for('static', filename='img/raspberry-pi-icon.svg') %%" alt="Raspberry Pi" />
-	
-		</div>
 	</div>
 </div>
 

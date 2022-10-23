@@ -1,0 +1,16 @@
+https://pimylifeup.com/raspberry-pi-kiosk/
+
+
+/lib/systemd/system/kiosk.service
+
+sudo systemctl enable kiosk.service
+
+sudo systemctl start kiosk.service
+
+sudo systemctl status kiosk.service
+
+sudo systemctl stop kiosk.service
+
+sudo systemctl disable kiosk.service
+
+

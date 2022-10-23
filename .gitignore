@@ -133,6 +133,5 @@ nohup.out
 app.log
 app.log.*
 .vscode
-ledbox.log
-ledbox.log.*
-
+pikiosk.log
+pikiosk.log.*

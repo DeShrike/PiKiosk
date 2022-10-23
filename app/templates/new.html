@@ -1,0 +1,84 @@
+{% extends '_layout.html' %}
+
+{% block title %}
+Pi Kiosk
+{% endblock %}
+
+{% block head %}
+
+<!--<script type="text/javascript" src="%% url_for('static', filename='js/vue3/vue.global.js') %%"></script>-->
+
+{% endblock %}
+
+{% block body %}
+
+<div id="kiosk-vue">
+
+	<div class="row">
+		<div class="col-md-12 col-12 spacer-one">&nbsp;</div>
+	</div>
+
+    <!--<div class="row">
+		<div class="col-12">
+			<div class="ms-alert ms-outline-success info-block">
+				{{ counter }} {{ info }}
+			</div>
+		</div>
+	</div>-->
+	
+	<!--<div class="row">
+		<div class="col-md-12 col-1 spacer-one">
+			<a href="/new" class="ms-btn ms-success">Add New</a>
+		</div>
+	</div>-->
+
+	<div class="content-code">
+        <form>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="kind">Type</label>
+                        <select id="kind">
+                            <option value="url">Url</option>
+                            <option value="image">Image</option>
+                        </select>
+                    </div>      
+                </div>
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="url">Url or Image name</label>
+                        <input type="text" placeholder="http://www.coderdojo.be/" id="url"/>   
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="bgcolor">Background Color</label>
+                        <input type="text" placeholder="#00FF00" id="bgcolor"/>
+                    </div>      
+                </div>
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="duration">Duration (seconds)</label>
+                        <input type="text" placeholder="60" id="duration"/>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="ms-btn ms-primary ms-success">Add</button>
+                    <a href="%% url_for('index') %%" class="ms-btn ms-warning">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+	<div class="row">
+		<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
+
+{% endblock %}

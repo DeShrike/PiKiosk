@@ -48,10 +48,37 @@ div.imagecontainer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 800px;
+	height: 100%;
+	width: 100%;
 }
 
 img.logo
 {
-	width: 100px;
+	width: 32px;
+}
+
+img.logo-coderdojo
+{
+	margin-top: 8px;
+}
+
+img.logo-raspberry-pi
+{
+	margin-top: 4px;
+}
+
+.ms-menu .ms-menu-logo img {
+	max-height: 24px;
+}
+
+.main-body
+{
+	min-height: 600px;
+}
+
+footer
+{
+	padding-top: 15px;
+	padding-bottom: 10px;
+	background-color: black;
 }
