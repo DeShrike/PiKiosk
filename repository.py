@@ -2,6 +2,8 @@ import logging
 import json
 from os.path import exists
 import config
+from werkzeug.urls import url_quote
+
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +19,11 @@ class Item():
       if self.kind == "url":
          return self.url        
       elif self.kind == "image":
-         url = "/image_fullscreen/" if self.fullscreen else "/image_centered/"
-         url += self.url
-         url += f"/{self.background_color.replace('#','')}"
-         return url        
+         fullurl = "/image_fullscreen/" if self.fullscreen else "/image_centered/"
+         url = url_quote(self.url) 
+         bg = url_quote(self.background_color)
+         fullurl += f"{url}/{bg}"
+         return fullurl        
       else:
          return None
 
@@ -39,9 +42,12 @@ class Repository():
       self.load()
       if self.item_count() == 0:
          # Add a few dummy items.
-         self.add("cat1.jpg", "image", 60, False, "#005500")
-         self.add("cat2.jpg", "image", 60, False, "#654321")
-         self.add("cat3.jpg", "image", 60, True, "#000021")
+         self.add("RSLopPost.jpg", "image", 60, False, "#001BFE")
+         self.add("cat1.jpg", "image", 60, False, "#BE8250")
+         self.add("cat2.jpg", "image", 60, False, "#88B729")
+         self.add("https://www.raspberrypi.org/", "url", 60, False, "#000000")
+         self.add("cat3.jpg", "image", 60, True, "#214F5E")
+         self.add("https://roeselare.coderdojobelgium.be/", "url", 60, False, "#000000")
 
    def add(self, url: str, kind: str, duration: int, fullscreen: bool, background_color: str):
       item = Item(url, kind, duration, fullscreen, background_color)

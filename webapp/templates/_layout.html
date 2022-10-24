@@ -1,7 +1,7 @@
 <html data-theme="dark">
 	<head>
 		<title>
-			{% block title %}
+			{% block pagetitle %}
 				Default Title
 			{% endblock %}
 		</title>
@@ -22,35 +22,45 @@
 
 	</head>
 	<body class="dark">
-		<div class="ms-contentXX">
+
+		<div class="ms-content">
 			<div class="ms-menu">
 			    <div class="ms-menu-logo">
 			    	<p><a href="%% url_for('index') %%"><img src="%% url_for('static', filename='img/coderdojo-logo.png') %%" alt="Pi Kiosk" /></a></p>
 			    </div>
 			    <div class="ms-menu-logo">
-			    	<p>%% model.title %%</p>
+			    	<p>Pi Kiosk</p>
 			    </div>
-			    <!-- <div class="ms-menu-logo">
+			    <div class="ms-menu-logo">
 			    	<p><a href="%% url_for('about') %%">About</a></p>
-			    </div> -->
+			    </div>
+			    <div class="ms-menu-logo">
+			    	<p><a href="%% url_for('status') %%">Status</a></p>
+			    </div>
 			</div>
 		</div>
 
 		<div class="container main-body">
-		{% block body %}
-		{% endblock %}
+			{% block body %}
+			{% endblock %}
 		</div>
 
 		<footer class="ms-footer">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm ms-text-right">
+					<div class="col-sm-2 ms-text-right">
 						<img class="logo logo-coderdojo" src="%% url_for('static', filename='img/coderdojo-icon.svg') %%" alt="Coderdojo" />
 					</div>
-					<div class="col-sm ms-text-center">
-						<p>Copyright &copy; 2022 <b>Coderdojo Roeselare</b></p>
+					<div class="col-sm-8 ms-text-center">
+						<p>
+							<a href="https://roeselare.coderdojobelgium.be/" target="_blank">Coderdojo Roeselare</a> 
+							- 
+							<a href="https://www.facebook.com/rsloppost/" target="_blank">RSLopPOST</a> 
+							- 
+							<a href="https://www.raspberrypi.org/" target="_blank">Raspberry Pi</a>
+						</p>
 					</div>
-					<div class="col-sm ms-text-left">
+					<div class="col-sm-2 ms-text-left">
 						<img class="logo logo-raspberry-pi" src="%% url_for('static', filename='img/raspberry-pi-icon.svg') %%" alt="Raspberry Pi" />
 					</div>
 				</div>

@@ -19,11 +19,14 @@ def main():
     try:
         logger.info("Loading repository")
         repository = Repository(config.REPOSITORY_FILE)
+        
         webapp.repository = repository
 
         logger.info("Starting Kiosk")
         kiosk = Kiosk(repository)
         kiosk.connect_to_browser()
+
+        webapp.kiosk = kiosk
 
         loop_thread = threading.Thread(target = kiosk.loop)
         logger.info("Starting main loop")

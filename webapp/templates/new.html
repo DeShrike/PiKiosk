@@ -1,24 +1,20 @@
 {% extends '_layout.html' %}
 
-{% block title %}
+{% block pagetitle %}
 Pi Kiosk
 {% endblock %}
 
 {% block head %}
 
-<!--<script type="text/javascript" src="%% url_for('static', filename='js/vue3/vue.global.js') %%"></script>-->
-
 {% endblock %}
 
 {% block body %}
 
-<div id="kiosk-vue">
+<div class="row">
+    <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
-    </div>
-
-    <!--<div class="row">
+<!--<div class="row">
 		<div class="col-12">
 			<div class="ms-alert ms-outline-success info-block">
 				{{ counter }} {{ info }}
@@ -26,128 +22,127 @@ Pi Kiosk
 		</div>
 	</div>-->
 
-    <!--<div class="row">
+<!--<div class="row">
 		<div class="col-md-12 col-1 spacer-one">
 			<a href="/new" class="ms-btn ms-success">Add New</a>
 		</div>
 	</div>-->
 
-    <div class="row">
-        <div class="col-md">
+<div class="row">
+    <div class="col-md">
 
-            <form method="post" action="%% url_for('add_image') %%">
-                <div class="row">
-                    <h2>Add Image</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="ms-form-group">
-                            <label for="imagename">Image</label>
-                            <select id="imagename">
-                                <option value="">-select-</option>
-                                {% for imagename in model.available_images: %}
-                                <option value="%% imagename %%">%% imagename %%</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="ms-form-group">
-                            <label for="bgcolor">Background Color</label>
-                            <input type="text" placeholder="#00FF00" id="bgcolor" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="ms-form-group">
-                            <label for="duration">Duration (seconds)</label>
-                            <input type="text" placeholder="60" id="duration" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div>
-                        <button type="submit" class="ms-btn ms-primary ms-success">Add</button>
-                    </div>
-                </div>
-            </form>
-
+        <form method="post" action="%% url_for('add_image') %%">
+            <div class="row">
+                <h2>Add Image</h2>
+            </div>
             <div class="row">
                 <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
             </div>
-        
-            <form action="%% url_for('upload_file') %%" method="POST" enctype="multipart/form-data">
-                <div class="row">
-                    <h2>Upload Image</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
-                </div>
-                <div class="row">
-                    <div class="cols-sm">
-                        <div class="ms-form-group">
-                            <label for="file">Image</label>
-                            <input type="file" name="file" id="file" />
-                        </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="imagename">Image</label>
+                        <select id="imagename">
+                            <option value="">-select-</option>
+                            {% for imagename in model.available_images: %}
+                            <option value="%% imagename %%">%% imagename %%</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
-                <div class="row">
-                    <div>
-                        <button type="submit" class="ms-btn ms-primary ms-success">Upload</button>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="bgcolor">Background Color</label>
+                        <input type="text" placeholder="#00FF00" id="bgcolor" />
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="duration">Duration (seconds)</label>
+                        <input type="text" placeholder="60" id="duration" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <button type="submit" class="ms-btn ms-primary ms-success">Add</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
         </div>
 
-
-        <div class="col-md">
-            <form method="post" action="%% url_for('add_url') %%">
-                <div class="row">
-                    <h2>Add Url</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="ms-form-group">
-                            <label for="url">Url</label>
-                            <input type="text" placeholder="https://www.coderdojo.be" id="url" />
-                        </div>
+        <form action="%% url_for('upload_file') %%" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <h2>Upload Image</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="cols-sm">
+                    <div class="ms-form-group">
+                        <label for="file">Image</label>
+                        <input type="file" name="file" id="file" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="ms-form-group">
-                            <label for="duration">Duration (seconds)</label>
-                            <input type="text" placeholder="60" id="duration" />
-                        </div>
-                    </div>
+            </div>
+            <div class="row">
+                <div>
+                    <button type="submit" class="ms-btn ms-primary ms-success">Upload</button>
                 </div>
-                <div class="row">
-                    <div>
-                        <button type="submit" class="ms-btn ms-primary ms-success">Add</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
-    <div class="row">
-        <div class="col-ms ms-text-right">
-            <a href="%% url_for('index') %%" class="ms-btn ms-warning">Cancel</a>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-1 col-1 spacer-one">&nbsp;</div>
+    <div class="col-md">
+        <form method="post" action="%% url_for('add_url') %%">
+            <div class="row">
+                <h2>Add Url</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="url">Url</label>
+                        <input type="text" placeholder="https://www.coderdojo.be" id="url" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="duration">Duration (seconds)</label>
+                        <input type="text" placeholder="60" id="duration" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <button type="submit" class="ms-btn ms-primary ms-success">Add</button>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-ms ms-text-right">
+        <a href="%% url_for('index') %%" class="ms-btn ms-warning">Cancel</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-1 col-1 spacer-one">&nbsp;</div>
 </div>
 
 {% endblock %}

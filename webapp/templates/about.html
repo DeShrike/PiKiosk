@@ -1,6 +1,6 @@
 {% extends '_layout.html' %}
 
-{% block title %}
+{% block pagetitle %}
 About
 {% endblock %}
 
@@ -11,33 +11,38 @@ About
 
 <div class="row">
 	<div class="col-md-12 col-12">
-		<h1>About</h1>
-		<p>%% model.intro %%</p>
+		<h1>%% model.title %%</h1>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md">
-		<p>Control the <a href="%% url_for('index') %%">Pi Kiosk</a></p>
+		<p>Simple kiosk application for Raspberry Pi.</p>
+		<p>Cycle through images and webpages on a connected monitor.</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md">
+		<p>Technologies used:</p>
+		<ul>
+			<li>Python</li>
+			<li>Flask</li>
+			<li>Git</li>
+			<li>Chromium Browser</li>
+			<li>Raspberry Pi</li>
+		</ul>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-sm">
-		<p>Get it on <i class="fa-brands fa-github"></i> Github: <a href="https://www.github.com">https://www.github.com</a></p>
+		<p>Get it on <i class="fa-brands fa-github"></i> Github: <a href="https://github.com/DeShrike/PiKiosk" target="_blank">https://github.com/DeShrike/PiKiosk</a></p>
 	</div>
 </div>
 
 {% endblock %}
 
 {% block javascript %}
-
-<script>
-
-	$(function () {
-		$("h1").html("About Pi Kiosk");
-	});
-
-</script>
 
 {% endblock %}

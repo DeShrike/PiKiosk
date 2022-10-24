@@ -5,4 +5,6 @@ class ViewModel():
         self.background_color = "#123456"
         self.intro = "Intro tekst"
         self.items = None
+        self.item_count = 0
         self.available_images = None
+        self.status = None

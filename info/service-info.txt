@@ -14,3 +14,7 @@ sudo systemctl stop kiosk.service
 sudo systemctl disable kiosk.service
 
 
+
+
+
+https://werkzeug.palletsprojects.com/en/1.0.x/urls/

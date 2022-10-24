@@ -5,6 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 repository = None
+kiosk = None
 
 class CustomFlask(Flask):
     jinja_options = Flask.jinja_options.copy()

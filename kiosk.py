@@ -2,12 +2,20 @@ import json
 import time
 import requests
 import logging
+import base64
 
 from repository import Repository
 from websocket import create_connection
 import config
 
 logger = logging.getLogger(__name__)
+
+class KioskStatus():
+    def __init__(self):
+        self.product = None
+        self.javascript_version = None
+        self.useragent = None
+        self.current_page = None
 
 class Kiosk():
     def __init__(self, repo: Repository):
@@ -18,7 +26,6 @@ class Kiosk():
         self.must_stop = False
         self.repository = repo
         logger.info("Connected")
-        self.show_current()
 
     def connect_to_browser(self):
         logger.info("Connecting")
@@ -38,14 +45,12 @@ class Kiosk():
 
         raise Exception("Unable to connect to browser")
 
-    def show_current(self):
+    def get_current(self):
         url = f"http://127.0.0.1:{self.port}/json"
         resp = requests.get(url).json()
         current_url = resp[0]["url"]
         current_title = resp[0]["title"]
-        logger.info("Current Page:")
-        logger.info(f"  {current_title}")
-        logger.info(f"  {current_url}")
+        return current_title, current_url
 
     def run_command(self, method, **kwargs):
         logger.info(f"Executing command: {method}")
@@ -56,6 +61,7 @@ class Kiosk():
         self.ws_conn.send(json.dumps(command))
         while True:
             msg = json.loads(self.ws_conn.recv())
+            # print(msg)
             if msg.get("id") == self.request_id:
                 return msg
 
@@ -63,7 +69,7 @@ class Kiosk():
         item = self.repository.items[self.repo_index]
         logger.info(f"Loading Item: {item.url}")
         url = item.build_url()
-        self.run_command("Page.navigate", url=item.url)        
+        self.run_command("Page.navigate", url=url)        
 
         return item.duration
 
@@ -95,22 +101,54 @@ class Kiosk():
         headings = [].slice.call(headings).map((link) => { return link.innerText });
         JSON.stringify(headings);
         """
-        result = self.run_command(self.ws_conn, 'Runtime.evaluate', expression=js)
+        result = self.run_command("Runtime.evaluate", expression=js)
         headings = json.loads(result['result']['result']['value'])
         for heading in headings:
             print(heading)
 
+    def get_status(self) -> KioskStatus:
+        status = KioskStatus()
+
+        # result = self.run_command('Browser.getWindowBounds', windowId=0)
+
+        result = self.run_command("Browser.getVersion")
+        if "product" in result["result"]:
+            status.product = result["result"]["product"]
+            status.javascript_version = result["result"]["jsVersion"]
+            status.useragent = result["result"]["userAgent"]
+
+        title, url = self.get_current()
+        status.current_page = f"{title} - {url}"
+
+        # result = self.run_command("SystemInfo.getInfo")
+        # print(result)
+
+        return status
+
+    def get_screenshot(self):
+        result = self.run_command("Page.captureScreenshot", format="png", optimizeForSpeed=True, fromSurface=False)
+        if "data" in result["result"]:
+            data = result["result"]["data"]
+            bytes = base64.b64decode(data)
+            return bytes
+        return None
+
     def stop(self):
         self.must_stop = True
 
+
 def main():
-    kiosk = Kiosk()
+    kiosk = Kiosk( Repository("r.json") )
     kiosk.connect_to_browser()
-    kiosk.show_current()
+    t, u = kiosk.get_current()
+    print(t, u)
+    #time.sleep(5)
+    #kiosk.run_command("Page.navigate", url="https://www.bing.com")
     time.sleep(5)
-    kiosk.run_command("Page.navigate", url="https://www.bing.com")
-    time.sleep(5)
-    kiosk.show_current()
+    #t, u = kiosk.get_current()
+    #print(t, u)
+    #kiosk.get_status()
+    kiosk.get_screenshot()
 
 if __name__ == "__main__":
     main()

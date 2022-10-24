@@ -1,5 +1,5 @@
 from webapp import webapp
-from flask import render_template, send_from_directory, request, redirect, url_for
+from flask import render_template, send_from_directory, request, redirect, url_for, make_response, abort
 from werkzeug.utils import secure_filename
 from logging import getLogger
 from os import listdir
@@ -15,19 +15,40 @@ logger = getLogger(__name__)
 def send_favicon():
     return send_from_directory("static/img", "favicon.ico")
 
+@webapp.route("/screenshot")
+def screenshot():
+
+    screenshot_bytes = webapp.kiosk.get_screenshot()
+    if screenshot_bytes is None:
+        return abort(404)
+
+    response = make_response(screenshot_bytes)
+    response.headers.set('Content-Type', 'image/png')
+    
+    return response
+
 @webapp.route("/about", methods=["GET"])
 def about():
     model = ViewModel()
-
-    print(realpath('.'))
-
+    model.title = "About"
+    
     return render_template("about.html", model = model)
+
+@webapp.route("/status", methods=["GET"])
+def status():
+    model = ViewModel()
+    model.title = "Status"
+
+    model.status = webapp.kiosk.get_status()
+
+    return render_template("status.html", model = model)
 
 @webapp.route("/", methods=["GET"])
 def index():
     repository = webapp.repository
     model = ViewModel()
     model.items = [{ "index": ix, "item": item, "url": item.build_relative_url() } for (ix, item) in enumerate(repository.items) ]  
+    model.item_count = len(model.items)
 
     return render_template("index.html", model = model)
 
@@ -61,8 +82,6 @@ def do_action():
         index = request.form.get("index")
         act = request.form.get("act")
 
-
-
     return redirect(url_for("index"))
 
 @webapp.route("/add_image", methods=["POST"])
@@ -88,7 +107,7 @@ def new_item():
 def image_centered(image: str, bgcolor: str):
     model = ViewModel()
 
-    model.background_color = f"#{bgcolor}"
+    model.background_color = bgcolor
     model.image_name = config.IMAGES_VIRTUAL_FOLDER + image
 
     return render_template("image_centered.html", model = model)
@@ -97,7 +116,7 @@ def image_centered(image: str, bgcolor: str):
 def image_fs(image: str, bgcolor: str):
     model = ViewModel()
 
-    model.background_color = f"#{bgcolor}"
+    model.background_color = bgcolor
     model.image_name = config.IMAGES_VIRTUAL_FOLDER + image
 
     return render_template("image_full_screen.html", model = model)
