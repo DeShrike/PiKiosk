@@ -43,6 +43,7 @@ class Repository():
       if self.item_count() == 0:
          # Add a few dummy items.
          self.add("RSLopPost.jpg", "image", 60, False, "#001BFE")
+         self.add("CoderDojo.png", "image", 60, False, "#FFFFFF")
          self.add("cat1.jpg", "image", 60, False, "#BE8250")
          self.add("cat2.jpg", "image", 60, False, "#88B729")
          self.add("https://www.raspberrypi.org/", "url", 60, False, "#000000")

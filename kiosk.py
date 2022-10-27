@@ -112,7 +112,7 @@ class Kiosk():
         # result = self.run_command('Browser.getWindowBounds', windowId=0)
 
         result = self.run_command("Browser.getVersion")
-        if "product" in result["result"]:
+        if "result" in result and "product" in result["result"]:
             status.product = result["result"]["product"]
             status.javascript_version = result["result"]["jsVersion"]
             status.useragent = result["result"]["userAgent"]
@@ -127,7 +127,7 @@ class Kiosk():
 
     def get_screenshot(self):
         result = self.run_command("Page.captureScreenshot", format="png", optimizeForSpeed=True, fromSurface=False)
-        if "data" in result["result"]:
+        if "result" in result and "data" in result["result"]:
             data = result["result"]["data"]
             bytes = base64.b64decode(data)
             return bytes
