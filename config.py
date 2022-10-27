@@ -13,5 +13,5 @@ HOST = "0.0.0.0"
 REPOSITORY_FILE = "repository.json"
 
 # The virtual folder for the images. Do not change unless you know what you are doing.
-IMAGES_VIRTUAL_FOLDER = "images/"
+IMAGES_VIRTUAL_FOLDER = "assets/"
 

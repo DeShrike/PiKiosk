@@ -20,8 +20,8 @@ git clone
    public = no
    browseable = yes
 
-[pikioskimages]
-   path = /home/pi/pikiosk/app/static/images
+[kioskassets]
+   path = /home/pi/pikiosk/app/static/assets
    writeable = yes
    create mask = 0666
    directory mask = 0755

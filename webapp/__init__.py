@@ -19,7 +19,7 @@ webapp.secret_key = "RTR10Rtnttrrwrttri76#"
 webapp.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
 
 webapp.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5
-webapp.config['UPLOAD_EXTENSIONS'] = [".jpg", ".png", ".gif"]
+webapp.config['UPLOAD_EXTENSIONS'] = [".jpg", ".png", ".gif", ".html"]
 
 webapp.permanent_session_lifetime = timedelta(days = 2)
 
