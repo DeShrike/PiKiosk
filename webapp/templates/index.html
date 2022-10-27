@@ -41,42 +41,43 @@ Pi Kiosk
 						%% item['item'].url %%
 
 						{% if item['item'].kind == 'image' or item['item'].kind == 'html' %}
-						<a href="%% item['url'] %%" target="_blank" class=""><i class="fa-solid fa-eye"></i></a>
+							<a href="%% item['url'] %%" target="_blank" class=""><i class="fa-solid fa-eye"></i></a>
 						{% endif %}
 					</td>
 					<td class="ms-text-center">%% item['item'].duration %%</td>
 					<td>
 						{% if item['item'].kind == 'image' %}
-						{% if item['item'].fullscreen %}
-						<span>Stretched</span>
-						{% else %}
-						<span>Centered</span>
-						{% endif %}
+							{% if item['item'].fullscreen %}
+							<span>Stretched</span>
+							{% else %}
+							<span>Centered</span>
+							{% endif %}
 						{% endif %}
 					</td>
 					<td>
 						{% if item['item'].kind == 'image' %}
-						%% item['item'].background_color %%
+							%% item['item'].background_color %%
 						{% endif %}
 					</td>
 					<td class="ms-text-center">
 						{% if item['index'] > 0 %}
-						<button type="button" data-index="%% item['index'] %%"
-							class="ms-btn ms-small ms-rounded js-move-up"><i class="fa-solid fa-arrow-up"></i></button>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-up">
+							<i class="fa-solid fa-arrow-up"></i>
+						</button>
 						{% endif %}
 						{% if item['index'] < model.item_count - 1 %} 
-						<button type="button"
-							data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-down"><i
-								class="fa-solid fa-arrow-down"></i></button>
-							{% endif %}
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-down">
+							<i class="fa-solid fa-arrow-down"></i>
+						</button>
+						{% endif %}
 					</td>
 					<td class="ms-text-center">
-						<button type="button" data-index="%% item['index'] %%"
-							class="ms-btn ms-danger ms-small ms-rounded js-delete"><i
-								class="fa-solid fa-trash"></i></button>
-						<button type="button" data-index="%% item['index'] %%"
-							class="ms-btn ms-success ms-small ms-rounded js-activate"><i
-								class="fa-solid fa-play"></i></button>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-activate">
+							<i class="fa-solid fa-play"></i>
+						</button>
+						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-delete">
+							<i class="fa-solid fa-trash"></i>
+						</button>
 					</td>
 				</tr>
 				{% endfor %}
