@@ -25,9 +25,9 @@ Pi Kiosk
 			<thead>
 				<tr>
 					<th>Type</th>
-					<th>Url / Image name</th>
-					<th>Mode</th>
+					<th>Name / Url</th>
 					<th class="ms-text-center">Duration</th>
+					<th>Mode</th>
 					<th>Background<br />Color</th>
 					<th></th>
 					<th></th>
@@ -40,13 +40,13 @@ Pi Kiosk
 					<td>
 						%% item['item'].url %%
 
-						{% if item['item'].kind == 'image' %}
+						{% if item['item'].kind == 'image' or item['item'].kind == 'html' %}
 						<a href="%% item['url'] %%" target="_blank" class=""><i class="fa-solid fa-eye"></i></a>
 						{% endif %}
 					</td>
+					<td class="ms-text-center">%% item['item'].duration %%</td>
 					<td>
-						{% if item['item'].kind == 'url' %}
-						{% else %}
+						{% if item['item'].kind == 'image' %}
 						{% if item['item'].fullscreen %}
 						<span>Stretched</span>
 						{% else %}
@@ -54,10 +54,8 @@ Pi Kiosk
 						{% endif %}
 						{% endif %}
 					</td>
-					<td class="ms-text-center">%% item['item'].duration %%</td>
 					<td>
-						{% if item['item'].kind == 'url' %}
-						{% else %}
+						{% if item['item'].kind == 'image' %}
 						%% item['item'].background_color %%
 						{% endif %}
 					</td>
@@ -66,7 +64,8 @@ Pi Kiosk
 						<button type="button" data-index="%% item['index'] %%"
 							class="ms-btn ms-small ms-rounded js-move-up"><i class="fa-solid fa-arrow-up"></i></button>
 						{% endif %}
-						{% if item['index'] < model.item_count - 1 %} <button type="button"
+						{% if item['index'] < model.item_count - 1 %} 
+						<button type="button"
 							data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-down"><i
 								class="fa-solid fa-arrow-down"></i></button>
 							{% endif %}
@@ -102,37 +101,6 @@ Pi Kiosk
 <script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
 
 <script type="text/javascript">
-
-	function init_schedule_page() {
-		$(".js-move-up").on("click", (e) => {
-			const index = $(e.currentTarget).data("index");
-			$("#index").val(index);
-			$("#act").val("move-up");
-			document.getElementById("actform").submit();
-		});
-
-		$(".js-move-down").on("click", (e) => {
-			const index = $(e.currentTarget).data("index");
-			$("#index").val(index);
-			$("#act").val("move-down");
-			document.getElementById("actform").submit();
-		});
-
-		$(".js-delete").on("click", (e) => {
-			const index = $(e.currentTarget).data("index");
-			$("#index").val(index);
-			$("#act").val("delete");
-			document.getElementById("actform").submit();
-		});
-
-		$(".js-activate").on("click", (e) => {
-			const index = $(e.currentTarget).data("index");
-			$("#index").val(index);
-			$("#act").val("activate");
-			document.getElementById("actform").submit();
-		});
-	}
-
 	$(function () {
 		init_schedule_page();
 	}); // => document ready callback

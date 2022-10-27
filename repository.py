@@ -18,6 +18,11 @@ class Item():
    def build_relative_url(self) -> str:
       if self.kind == "url":
          return self.url        
+      elif self.kind == "html":
+         fullurl = "/htmlfile/"
+         url = url_quote(self.url) 
+         fullurl += f"{url}"
+         return fullurl        
       elif self.kind == "image":
          fullurl = "/image_fullscreen/" if self.fullscreen else "/image_centered/"
          url = url_quote(self.url) 
@@ -32,6 +37,8 @@ class Item():
          return self.url        
       elif self.kind == "image":
          return f"http://127.0.0.1:{config.PORT}{self.build_relative_url()}"
+      elif self.kind == "html":
+         return f"http://127.0.0.1:{config.PORT}{self.build_relative_url()}"
       else:
          return None
 
@@ -42,12 +49,10 @@ class Repository():
       self.load()
       if self.item_count() == 0:
          # Add a few dummy items.
+         self.add("splash.html", "html", 60, False, None)
          self.add("RSLopPost.jpg", "image", 60, False, "#001BFE")
          self.add("CoderDojo.png", "image", 60, False, "#FFFFFF")
-         self.add("cat1.jpg", "image", 60, False, "#BE8250")
-         self.add("cat2.jpg", "image", 60, False, "#88B729")
          self.add("https://www.raspberrypi.org/", "url", 60, False, "#000000")
-         self.add("cat3.jpg", "image", 60, True, "#214F5E")
          self.add("https://roeselare.coderdojobelgium.be/", "url", 60, False, "#000000")
 
    def add(self, url: str, kind: str, duration: int, fullscreen: bool, background_color: str):
@@ -76,6 +81,7 @@ class Repository():
 def main():
    repo = Repository(config.REPOSITORY_FILE)
    print(len(repo.items))
+   repo.add("splash.html", "html", 60, False, None)
    repo.add("cat2.jpg", "image", 60, True, "#123456")
    repo.add("https://www.google.com", "url", 60, False, None)
    repo.add("cat1.jpg", "image", 60, False, "#005500")

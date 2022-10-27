@@ -94,14 +94,29 @@ def add_image():
 
     return redirect(url_for("index"))
 
+@webapp.route("/add_html", methods=["POST"])
+def add_html():
+
+    #if request.method == "POST":
+    #   first_name = request.form.get("fname")
+
+    model = ViewModel()
+
+    return redirect(url_for("index"))
+
 @webapp.route("/new", methods=["GET"])
 def new_item():
     model = ViewModel()
 
     staticfolder = f"{STATIC_FOLDER}{config.IMAGES_VIRTUAL_FOLDER}"
-    model.available_images = sorted([f for f in listdir(staticfolder) if isfile(join(staticfolder, f))])
+    model.available_images = sorted([f for f in listdir(staticfolder) if isfile(join(staticfolder, f)) and isimagefile(f)])
+    model.available_htmls = sorted([f for f in listdir(staticfolder) if isfile(join(staticfolder, f)) and ishtmlfile(f)])
 
     return render_template("new.html", model = model)
+
+@webapp.route("/htmlfile/<filename>")
+def htmlfile(filename: str):
+    return send_from_directory(f"static/{config.IMAGES_VIRTUAL_FOLDER}", filename)
 
 @webapp.route("/image_centered/<image>/<bgcolor>")
 def image_centered(image: str, bgcolor: str):
@@ -120,3 +135,13 @@ def image_fs(image: str, bgcolor: str):
     model.image_name = config.IMAGES_VIRTUAL_FOLDER + image
 
     return render_template("image_full_screen.html", model = model)
+
+def ishtmlfile(filename):
+    validextension = [".html", ".htm"]
+    ext = filename[filename.rfind("."):]
+    return ext in validextension
+
+def isimagefile(filename):
+    validextension = [".png", ".jpeg", ".jpg", ".gif"]
+    ext = filename[filename.rfind("."):]
+    return ext in validextension

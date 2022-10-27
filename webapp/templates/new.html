@@ -80,7 +80,7 @@ Pi Kiosk
 
         <form action="%% url_for('upload_file') %%" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <h2>Upload Image</h2>
+                <h2>Upload Image or HTML file</h2>
             </div>
             <div class="row">
                 <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
@@ -88,7 +88,7 @@ Pi Kiosk
             <div class="row">
                 <div class="cols-sm">
                     <div class="ms-form-group">
-                        <label for="file">Image</label>
+                        <label for="file">File</label>
                         <input type="file" name="file" id="file" />
                     </div>
                 </div>
@@ -132,6 +132,46 @@ Pi Kiosk
                 </div>
             </div>
         </form>
+
+        <div class="row">
+            <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
+        </div>
+
+        <form method="post" action="%% url_for('add_html') %%">
+            <div class="row">
+                <h2>Add Html</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="htmlname">Html page</label>
+                        <select id="htmlname">
+                            <option value="">-select-</option>
+                            {% for htmlname in model.available_htmls: %}
+                            <option value="%% htmlname %%">%% htmlname %%</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="ms-form-group">
+                        <label for="duration">Duration (seconds)</label>
+                        <input type="text" placeholder="60" id="duration" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <button type="submit" class="ms-btn ms-primary ms-success">Add</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 </div>
 

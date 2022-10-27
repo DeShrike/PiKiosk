@@ -7,4 +7,5 @@ class ViewModel():
         self.items = None
         self.item_count = 0
         self.available_images = None
+        self.available_htmls = None
         self.status = None

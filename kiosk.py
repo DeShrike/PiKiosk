@@ -26,6 +26,7 @@ class Kiosk():
         self.must_stop = False
         self.repository = repo
         logger.info("Connected")
+        self.command_running = False
 
     def connect_to_browser(self):
         logger.info("Connecting")
@@ -53,22 +54,32 @@ class Kiosk():
         return current_title, current_url
 
     def run_command(self, method, **kwargs):
+        if self.command_running:
+            return None
+        self.command_running = True
         logger.info(f"Executing command: {method}")
         self.request_id += 1
         command = {"method": method,
                     "id": self.request_id,
                     "params": kwargs}
         self.ws_conn.send(json.dumps(command))
-        while True:
-            msg = json.loads(self.ws_conn.recv())
+        i = 0
+        while True and i < 100:
+            data = self.ws_conn.recv()
+            msg = json.loads(data)
+            i += 1
             # print(msg)
             if msg.get("id") == self.request_id:
+                self.command_running = False
                 return msg
+        self.command_running = False
+        return None
 
     def send_item_to_browser(self):
         item = self.repository.items[self.repo_index]
         logger.info(f"Loading Item: {item.url}")
         url = item.build_url()
+        logger.debug(url)
         self.run_command("Page.navigate", url=url)        
 
         return item.duration
@@ -77,6 +88,7 @@ class Kiosk():
         if self.ws_conn is None:
             return
 
+        loopcounter = 0
         self.repo_index = -1
         self.wait_duration = 10
         current_item_start_time = time.perf_counter()
@@ -92,7 +104,9 @@ class Kiosk():
                 current_item_start_time = time.perf_counter()
                 logger.info(f"Waiting {self.wait_duration} seconds")
 
+            print(f"Loop {loopcounter}", end="\r")
             time.sleep(1)
+            loopcounter += 1
 
     def execute_javascript(self):
         js = """
