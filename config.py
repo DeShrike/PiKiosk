@@ -10,7 +10,7 @@ PORT = 8080
 HOST = "0.0.0.0"
 
 # Set this to False if you want to use the webapp with actually connecting to a browser.
-ATTACH_TO_BROWSER = False
+ATTACH_TO_BROWSER = True
 
 # The name of the file containing the items to display on the kiosk. Only edit this file manually if you know what you are doing.
 REPOSITORY_FILE = "repository.json"

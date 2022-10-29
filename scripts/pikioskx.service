@@ -1,0 +1,16 @@
+[Unit]
+Description=Coderdojo Kiosk
+Wants=graphical.target
+After=graphical.target
+
+[Service]
+Environment=DISPLAY=:0.0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+Type=simple
+ExecStart=xinit /home/pi/pikioskx.sh -- vt$(fgconsole)
+Restart=on-abort
+User=pi
+Group=pi
+
+[Install]
+WantedBy=graphical.target
