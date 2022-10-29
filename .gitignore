@@ -135,3 +135,5 @@ app.log.*
 .vscode
 pikiosk.log
 pikiosk.log.*
+node_modules
+

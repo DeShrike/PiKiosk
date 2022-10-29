@@ -43,14 +43,18 @@ def status():
 
     return render_template("status.html", model = model)
 
-@webapp.route("/", methods=["GET"])
-def index():
+def build_index():
     repository = webapp.repository
+
     model = ViewModel()
     model.items = [{ "index": ix, "item": item, "url": item.build_relative_url() } for (ix, item) in enumerate(repository.items) ]  
     model.item_count = len(model.items)
 
     return render_template("index.html", model = model)
+
+@webapp.route("/", methods=["GET"])
+def index():
+    return build_index()
 
 @webapp.route("/uploader", methods = ["POST"])
 def upload_file():
@@ -72,15 +76,6 @@ def add_url():
     #   first_name = request.form.get("fname")
 
     model = ViewModel()
-
-    return redirect(url_for("index"))
-
-@webapp.route("/act", methods=["POST"])
-def do_action():
-
-    if request.method == "POST":
-        index = request.form.get("index")
-        act = request.form.get("act")
 
     return redirect(url_for("index"))
 
@@ -135,6 +130,37 @@ def image_fs(image: str, bgcolor: str):
     model.image_name = config.IMAGES_VIRTUAL_FOLDER + image
 
     return render_template("image_full_screen.html", model = model)
+
+@webapp.route("/item_delete", methods=["POST"])
+def item_delete():
+    data = request.json
+    index = data["index"]
+    repository = webapp.repository
+    repository.delete_by_index(index)
+    return build_index()
+
+@webapp.route("/item_up", methods=["POST"])
+def item_up():
+    data = request.json
+    index = data["index"]
+    repository = webapp.repository
+    repository.moveup_by_index(index)
+    return build_index()
+
+@webapp.route("/item_down", methods=["POST"])
+def item_down():
+    data = request.json
+    index = data["index"]
+    repository = webapp.repository
+    repository.movedown_by_index(index)
+    return build_index()
+
+@webapp.route("/item_activa te", methods=["POST"])
+def item_activate():
+    data = request.json
+    index = data["index"]
+    webapp.kiosk.activate_by_index(index)
+    return None
 
 def ishtmlfile(filename):
     validextension = [".html", ".htm"]

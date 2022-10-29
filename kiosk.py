@@ -56,6 +56,8 @@ class Kiosk():
     def run_command(self, method, **kwargs):
         if self.command_running:
             return None
+        if self.ws_conn is None:
+            return None
         self.command_running = True
         logger.info(f"Executing command: {method}")
         self.request_id += 1
@@ -83,6 +85,9 @@ class Kiosk():
         self.run_command("Page.navigate", url=url)        
 
         return item.duration
+
+    def activate_by_index(self, index:int) -> None:
+        pass
 
     def loop(self):
         if self.ws_conn is None:
@@ -126,7 +131,7 @@ class Kiosk():
         # result = self.run_command('Browser.getWindowBounds', windowId=0)
 
         result = self.run_command("Browser.getVersion")
-        if "result" in result and "product" in result["result"]:
+        if result is not None and "result" in result and "product" in result["result"]:
             status.product = result["result"]["product"]
             status.javascript_version = result["result"]["jsVersion"]
             status.useragent = result["result"]["userAgent"]
@@ -141,7 +146,7 @@ class Kiosk():
 
     def get_screenshot(self):
         result = self.run_command("Page.captureScreenshot", format="png", optimizeForSpeed=True, fromSurface=False)
-        if "result" in result and "data" in result["result"]:
+        if result is not None and "result" in result and "data" in result["result"]:
             data = result["result"]["data"]
             bytes = base64.b64decode(data)
             return bytes

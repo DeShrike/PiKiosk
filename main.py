@@ -24,7 +24,7 @@ def main():
 
         logger.info("Starting Kiosk")
         kiosk = Kiosk(repository)
-        kiosk.connect_to_browser()
+        #  !!!!!!!!!!!  kiosk.connect_to_browser()
 
         webapp.kiosk = kiosk
 

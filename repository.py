@@ -4,7 +4,6 @@ from os.path import exists
 import config
 from werkzeug.urls import url_quote
 
-
 logger = logging.getLogger(__name__)
 
 class Item():
@@ -58,6 +57,26 @@ class Repository():
    def add(self, url: str, kind: str, duration: int, fullscreen: bool, background_color: str):
       item = Item(url, kind, duration, fullscreen, background_color)
       self.items.append(item)
+
+   def moveup_by_index(self, index:int) -> None:
+      if index < 0 or index >= self.item_count():
+         return
+
+      self.items.insert(index - 1, self.items.pop(index))
+      # !!!!!!!! self.save()
+
+   def movedown_by_index(self, index:int) -> None:
+      if index < 0 or index >= self.item_count():
+         return
+      self.items.insert(index + 1, self.items.pop(index))
+      # !!!!!!!! self.save()
+
+   def delete_by_index(self, index:int) -> None:
+      if index < 0 or index >= self.item_count():
+         return
+      
+      self.items.remove(self.items[index])
+      # !!!!!!!! self.save()
 
    def save(self):
       d = [ i.__dict__ for i in self.items ]
