@@ -63,20 +63,21 @@ class Repository():
          return
 
       self.items.insert(index - 1, self.items.pop(index))
-      # !!!!!!!! self.save()
+      self.save()
 
    def movedown_by_index(self, index:int) -> None:
       if index < 0 or index >= self.item_count():
          return
+
       self.items.insert(index + 1, self.items.pop(index))
-      # !!!!!!!! self.save()
+      self.save()
 
    def delete_by_index(self, index:int) -> None:
       if index < 0 or index >= self.item_count():
          return
-      
+
       self.items.remove(self.items[index])
-      # !!!!!!!! self.save()
+      self.save()
 
    def save(self):
       d = [ i.__dict__ for i in self.items ]

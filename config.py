@@ -9,7 +9,10 @@ PORT = 8080
 # The address to bind the management site to. Use "0.0.0.0" for all addresses, or specify a specific one.
 HOST = "0.0.0.0"
 
-# The name of the file containing the items to display on the kiosk. Only edit this manually if you knoow what you are doing.
+# Set this to False if you want to use the webapp with actually connecting to a browser.
+ATTACH_TO_BROWSER = False
+
+# The name of the file containing the items to display on the kiosk. Only edit this file manually if you know what you are doing.
 REPOSITORY_FILE = "repository.json"
 
 # The virtual folder for the images. Do not change unless you know what you are doing.

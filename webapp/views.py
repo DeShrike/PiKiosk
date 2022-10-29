@@ -18,6 +18,9 @@ def send_favicon():
 @webapp.route("/screenshot")
 def screenshot():
 
+    if config.ATTACH_TO_BROWSER is False:
+        return "", 404
+
     screenshot_bytes = webapp.kiosk.get_screenshot()
     if screenshot_bytes is None:
         return abort(404)
@@ -39,7 +42,8 @@ def status():
     model = ViewModel()
     model.title = "Status"
 
-    model.status = webapp.kiosk.get_status()
+    if config.ATTACH_TO_BROWSER:
+        model.status = webapp.kiosk.get_status()
 
     return render_template("status.html", model = model)
 
@@ -72,30 +76,54 @@ def upload_file():
 @webapp.route("/add_url", methods=["POST"])
 def add_url():
 
-    #if request.method == "POST":
-    #   first_name = request.form.get("fname")
+    if request.method == "POST":
+        url = request.form.get("url")
+        if url is None or url == "":
+            return redirect(url_for("index"))
+        duration = request.form.get("duration")
+        if duration is None or duration.isnumeric() is False:
+            duration = 60
 
-    model = ViewModel()
+        repository = webapp.repository
+        repository.add(url, "url", duration, False, None)
+        repository.save()
 
     return redirect(url_for("index"))
 
 @webapp.route("/add_image", methods=["POST"])
 def add_image():
 
-    #if request.method == "POST":
-    #   first_name = request.form.get("fname")
+    if request.method == "POST":
+        image_name = request.form.get("imagename")
+        if image_name is None or image_name == "":
+            return redirect(url_for("index"))
+        duration = request.form.get("duration")
+        if duration is None or duration.isnumeric() is False:
+            duration = 60
+        bgcolor = request.form.get("bgcolor")
+        if bgcolor is None or bgcolor == "":
+            bgcolor = "#FFFFFF"
 
-    model = ViewModel()
+        repository = webapp.repository
+        repository.add(image_name, "image", duration, False, bgcolor)
+        repository.save()
 
     return redirect(url_for("index"))
 
 @webapp.route("/add_html", methods=["POST"])
 def add_html():
 
-    #if request.method == "POST":
-    #   first_name = request.form.get("fname")
+    if request.method == "POST":
+        html_name = request.form.get("htmlname")
+        if html_name is None or html_name == "":
+            return redirect(url_for("index"))
+        duration = request.form.get("duration")
+        if duration is None or duration.isnumeric() is False:
+            duration = 60
 
-    model = ViewModel()
+        repository = webapp.repository
+        repository.add(html_name, "html", duration, False, None)
+        repository.save()
 
     return redirect(url_for("index"))
 
@@ -155,12 +183,12 @@ def item_down():
     repository.movedown_by_index(index)
     return build_index()
 
-@webapp.route("/item_activa te", methods=["POST"])
+@webapp.route("/item_activate", methods=["POST"])
 def item_activate():
     data = request.json
     index = data["index"]
     webapp.kiosk.activate_by_index(index)
-    return None
+    return "", 200
 
 def ishtmlfile(filename):
     validextension = [".html", ".htm"]

@@ -87,7 +87,8 @@ class Kiosk():
         return item.duration
 
     def activate_by_index(self, index:int) -> None:
-        pass
+        self.repo_index = index - 1
+        self.wait_duration = 1
 
     def loop(self):
         if self.ws_conn is None:

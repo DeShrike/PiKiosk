@@ -42,7 +42,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="imagename">Image</label>
-                        <select id="imagename">
+                        <select id="imagename" name="imagename">
                             <option value="">-select-</option>
                             {% for imagename in model.available_images: %}
                             <option value="%% imagename %%">%% imagename %%</option>
@@ -55,7 +55,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="bgcolor">Background Color</label>
-                        <input type="text" placeholder="#00FF00" id="bgcolor" />
+                        <input type="text" placeholder="#00FF00" id="bgcolor" name="bgcolor" />
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="duration">Duration (seconds)</label>
-                        <input type="text" placeholder="60" id="duration" />
+                        <input type="text" placeholder="60" id="duration"  name="duration"/>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="url">Url</label>
-                        <input type="text" placeholder="https://www.coderdojo.be" id="url" />
+                        <input type="text" placeholder="https://www.coderdojo.be" id="url" name="url" />
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="duration">Duration (seconds)</label>
-                        <input type="text" placeholder="60" id="duration" />
+                        <input type="text" placeholder="60" id="duration" name="duration" />
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="htmlname">Html page</label>
-                        <select id="htmlname">
+                        <select id="htmlname" name="htmlname">
                             <option value="">-select-</option>
                             {% for htmlname in model.available_htmls: %}
                             <option value="%% htmlname %%">%% htmlname %%</option>
@@ -161,7 +161,7 @@ Pi Kiosk
                 <div class="col-sm">
                     <div class="ms-form-group">
                         <label for="duration">Duration (seconds)</label>
-                        <input type="text" placeholder="60" id="duration" />
+                        <input type="text" placeholder="60" id="duration" name="duration" />
                     </div>
                 </div>
             </div>
