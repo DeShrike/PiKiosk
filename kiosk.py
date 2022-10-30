@@ -40,7 +40,7 @@ class Kiosk():
                 self.ws_conn = create_connection(self.ws_url)
                 return
             except requests.exceptions.ConnectionError:
-                logger.info("Waiting")
+                logger.warning("Waiting")
                 time.sleep(sleep_step)
                 wait_seconds -= sleep_step
 
@@ -49,15 +49,22 @@ class Kiosk():
     def get_current(self):
         url = f"http://127.0.0.1:{self.port}/json"
         resp = requests.get(url).json()
-        current_url = resp[0]["url"]
-        current_title = resp[0]["title"]
+        if resp is not None:
+            current_url = resp[0]["url"]
+            current_title = resp[0]["title"]
+        else:
+            current_url = "/"
+            current_title = "/"
+
         return current_title, current_url
 
     def run_command(self, method, **kwargs):
         if self.command_running:
             return None
+
         if self.ws_conn is None:
             return None
+
         self.command_running = True
         logger.info(f"Executing command: {method}")
         self.request_id += 1
@@ -66,7 +73,7 @@ class Kiosk():
                     "params": kwargs}
         self.ws_conn.send(json.dumps(command))
         i = 0
-        while True and i < 100:
+        while True and i < 50:
             data = self.ws_conn.recv()
             msg = json.loads(data)
             i += 1
@@ -74,6 +81,8 @@ class Kiosk():
             if msg.get("id") == self.request_id:
                 self.command_running = False
                 return msg
+
+        logger.warning("run_command(): no reply")
         self.command_running = False
         return None
 
@@ -136,6 +145,8 @@ class Kiosk():
             status.product = result["result"]["product"]
             status.javascript_version = result["result"]["jsVersion"]
             status.useragent = result["result"]["userAgent"]
+        else:
+            logger.error("get_status() failed")
 
         title, url = self.get_current()
         status.current_page = f"{title} - {url}"
@@ -151,6 +162,9 @@ class Kiosk():
             data = result["result"]["data"]
             bytes = base64.b64decode(data)
             return bytes
+        else:
+            logger.error("get_screenshot() failed")
+
         return None
 
     def stop(self):

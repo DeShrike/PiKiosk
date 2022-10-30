@@ -7,7 +7,7 @@ import threading
 import time
 
 logger = logging.getLogger(__name__)
-logger.info("Starting server")
+logger.warning("Starting server")
 logger.info("Initializing Flask")
 
 from webapp import webapp
@@ -33,15 +33,16 @@ def main():
         logger.info("Starting main loop")
         loop_thread.start()
 
+        logger.info("Starting web app")
         webapp.run(debug=False, port=config.PORT, host=config.HOST, use_reloader=False)
     except Exception as e:
         logger.error(e)
     else:
         pass
     finally:
-        logger.info("Stopping")
+        logger.warning("Stopping")
         kiosk.stop()
-        time.sleep(2)
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()
