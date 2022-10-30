@@ -1,12 +1,14 @@
 sudo apt-get update
 
-sudo apt install xserver-xorg xinit
+sudo apt-get install xserver-xorg xinit
 
 sudo dpkg-reconfigure x11-common
 
-sudo apt install chromium-browser
+sudo apt-get install chromium-browser
 
 sudo apt-get install python3-pip
+
+sudo apt-get install git
 
 pip3 install flask
 
