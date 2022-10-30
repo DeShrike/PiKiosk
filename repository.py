@@ -46,7 +46,7 @@ class Repository():
       self.items = []
       self.filename = filename
       self.load()
-      if self.item_count() == 0:
+      if self.item_count == 0:
          # Add a few dummy items.
          self.add("splash.html", "html", 60, False, None)
          self.add("RSLopPost.jpg", "image", 60, False, "#001BFE")
@@ -59,21 +59,21 @@ class Repository():
       self.items.append(item)
 
    def moveup_by_index(self, index:int) -> None:
-      if index < 0 or index >= self.item_count():
+      if index < 0 or index >= self.item_count:
          return
 
       self.items.insert(index - 1, self.items.pop(index))
       self.save()
 
    def movedown_by_index(self, index:int) -> None:
-      if index < 0 or index >= self.item_count():
+      if index < 0 or index >= self.item_count:
          return
 
       self.items.insert(index + 1, self.items.pop(index))
       self.save()
 
    def delete_by_index(self, index:int) -> None:
-      if index < 0 or index >= self.item_count():
+      if index < 0 or index >= self.item_count:
          return
 
       self.items.remove(self.items[index])
@@ -84,6 +84,7 @@ class Repository():
       with open(self.filename, "w") as fo:
          fo.write(json.dumps(d))
 
+   @property
    def item_count(self) -> int:
       return len(self.items)
 

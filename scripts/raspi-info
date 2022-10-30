@@ -1,0 +1,34 @@
+#!/bin/bash
+
+RED='\E[30;31m'
+GREEN='\E[30;32m'
+YELLOW='\E[30;33m'
+BLUE='\E[30;34m'
+MAGENTA='\E[30;35m'
+CYAN='\E[30;36m'
+
+NORMAL='\033[0m'             # end bold
+
+echo ''
+
+OSVERSION=$(cat /etc/os-release | grep "PRETTY_NAME=" | cut -d'"' -f 2)
+echo -e "${NORMAL}OS:    ${BLUE}$OSVERSION ${NORMAL}"
+
+PIMODEL=$(cat /sys/firmware/devicetree/base/model | tr -d '\0')
+echo -e "${NORMAL}Model: ${YELLOW}$PIMODEL ${NORMAL}"
+
+CPU=$(cat /proc/cpuinfo | grep -m1 -e model | cut -d':' -f 2)
+echo -e "${NORMAL}CPU:  ${MAGENTA}$CPU ${NORMAL}"
+
+TEMPERATURE=$(vcgencmd measure_temp | cut -d'=' -f 2)
+echo -e "${NORMAL}Temp:  ${CYAN}$TEMPERATURE ${NORMAL}"
+
+TOTALMEM=$(cat /proc/meminfo | grep "MemTotal" | cut -d':' -f 2)
+TOTALMEM=`echo $TOTALMEM | sed 's/ *$//g'`
+echo -e "${NORMAL}RAM:   ${RED}${TOTALMEM##*( )} ${NORMAL}"
+
+IP=$(hostname -I | cut -d' ' -f 1)
+IP=`echo $IP | sed 's/ *$//g'`
+echo -e "${NORMAL}IP:    ${GREEN}${IP} ${NORMAL}"
+
+echo ''

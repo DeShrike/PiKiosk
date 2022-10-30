@@ -103,7 +103,7 @@ class Kiosk():
         while not self.must_stop:
             if time.perf_counter() - current_item_start_time > self.wait_duration:
                 self.repo_index += 1
-                if self.repo_index >= self.repository.item_count():
+                if self.repo_index >= self.repository.item_count:
                     self.repo_index = 0
 
                 self.wait_duration = self.send_item_to_browser()

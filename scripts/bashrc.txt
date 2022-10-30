@@ -1,0 +1,9 @@
+
+if [ -z $DISPLAY ] && [ $(tty) = /dev/tty1 ]
+then
+    xinit /home/pi/pikiosk/scripts/pikioskx.sh -- vt$(fgconsole)
+else
+    export PS1="\[\e[31m\]\u\[\e[m\]\[\e[36m\]@\[\e[m\]\[\e[32m\]\h\[\e[m\] - \[\e[35m\]\w\[\e[m\] "
+    .local/bin/raspi-info
+fi
+
