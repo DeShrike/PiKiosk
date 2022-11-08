@@ -25,7 +25,7 @@ echo -e "${NORMAL}Temp:  ${CYAN}$TEMPERATURE ${NORMAL}"
 
 TOTALMEM=$(cat /proc/meminfo | grep "MemTotal" | cut -d':' -f 2)
 TOTALMEM=`echo $TOTALMEM | sed 's/ *$//g'`
-echo -e "${NORMAL}RAM:   ${RED}${TOTALMEM##*( )} ${NORMAL}"
+echo -e "${NORMAL}RAM:   ${RED}${TOTALMEM} ${NORMAL}"
 
 IP=$(hostname -I | cut -d' ' -f 1)
 IP=`echo $IP | sed 's/ *$//g'`

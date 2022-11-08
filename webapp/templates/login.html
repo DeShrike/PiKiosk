@@ -1,0 +1,66 @@
+{% extends '_layout.html' %}
+
+{% block pagetitle %}
+Pi Kiosk
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-12 col-12 spacer-two">&nbsp;</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-sm-6">
+		<form method="post" action="%% url_for('login') %%">
+			<div class="row">
+				<h2>Login</h2>
+			</div>
+			<div class="row">
+				<div class="col-md spacer-two">&nbsp;</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<div class="ms-form-group">
+						<label for="username">Username</label>
+						<input type="text" placeholder="" id="username" name="username" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<div class="ms-form-group">
+						<label for="username">Password</label>
+						<input type="password" placeholder="" id="pw" name="pw" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div>
+					<button type="submit" class="ms-btn ms-primary ms-success">Login</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
+
+<script type="text/javascript">
+	$(function () {
+	});
+</script>
+
+{% endblock %}

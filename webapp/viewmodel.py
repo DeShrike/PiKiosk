@@ -9,3 +9,4 @@ class ViewModel():
         self.available_images = None
         self.available_htmls = None
         self.status = None
+        self.authenticated = False

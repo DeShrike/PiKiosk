@@ -4,6 +4,7 @@ xset s off
 xset s noblank
 matchbox-window-manager -use_titlebar no &
 unclutter &
+#   --disk-cache-dir=/dev/null \
 chromium-browser http://127.0.0.1:8080 \
    --kiosk \
    --start-fullscreen \
@@ -18,10 +19,10 @@ chromium-browser http://127.0.0.1:8080 \
    --fast-start \
    --disable-infobars \
    --disable-features=TranslateUI \
-   --disk-cache-dir=/dev/null \
    --overscroll-history-navigation=0 \
    --disable-pinch \
    --remote-debugging-port=9222 \
+   --disk-cache-dir=/tmp/chromium \
    --no-sandbox \
    --disable-setuid-sandbox
 

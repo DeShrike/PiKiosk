@@ -37,6 +37,15 @@
 			    <div class="ms-menu-logo">
 			    	<p><a href="%% url_for('status') %%">Status</a></p>
 			    </div>
+				{% if model.authenticated %}
+			    <div class="ms-menu-logo">
+			    	<p><a href="%% url_for('logout') %%">Logout</a></p>
+			    </div>
+				{% else %}
+			    <div class="ms-menu-logo">
+			    	<p><a href="%% url_for('login') %%">Login</a></p>
+			    </div>
+				{% endif %}
 			</div>
 		</div>
 

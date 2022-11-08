@@ -14,9 +14,11 @@ Pi Kiosk
 	<div class="col-sm-6">
 		<h1>Kiosk Schedule</h1>
 	</div>
+	{% if model.authenticated %}
 	<div class="col-sm-6 ms-text-right">
 		<a href="%% url_for('new_item') %%" class="ms-btn btn-secondary"><i class="fa-solid fa-plus"></i> Add</a>
 	</div>
+	{% endif %}
 </div>
 
 <div class="row js-partial-update">
@@ -60,24 +62,28 @@ Pi Kiosk
 						{% endif %}
 					</td>
 					<td class="ms-text-center">
-						{% if item['index'] > 0 %}
-						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-up">
-							<i class="fa-solid fa-arrow-up"></i>
-						</button>
-						{% endif %}
-						{% if item['index'] < model.item_count - 1 %} 
-						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-down">
-							<i class="fa-solid fa-arrow-down"></i>
-						</button>
+						{% if model.authenticated %}
+							{% if item['index'] > 0 %}
+							<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-up">
+								<i class="fa-solid fa-arrow-up"></i>
+							</button>
+							{% endif %}
+							{% if item['index'] < model.item_count - 1 %} 
+							<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-move-down">
+								<i class="fa-solid fa-arrow-down"></i>
+							</button>
+							{% endif %}
 						{% endif %}
 					</td>
 					<td class="ms-text-center">
-						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-activate">
-							<i class="fa-solid fa-play"></i>
-						</button>
-						<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-delete">
-							<i class="fa-solid fa-trash"></i>
-						</button>
+						{% if model.authenticated %}
+							<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-activate">
+								<i class="fa-solid fa-play"></i>
+							</button>
+							<button type="button" data-index="%% item['index'] %%" class="ms-btn ms-small ms-rounded js-delete">
+								<i class="fa-solid fa-trash"></i>
+							</button>
+						{% endif %}
 					</td>
 				</tr>
 				{% endfor %}

@@ -1,9 +1,10 @@
 from webapp import webapp
-from flask import render_template, send_from_directory, request, redirect, url_for, make_response, abort
+from flask import render_template, send_from_directory, request, redirect, url_for, make_response, abort, session
 from werkzeug.utils import secure_filename
 from logging import getLogger
 from os import listdir
 from os.path import isfile, join, realpath, splitext
+from simplepam import authenticate
 from .viewmodel import ViewModel
 import config
 
@@ -32,14 +33,14 @@ def screenshot():
 
 @webapp.route("/about", methods=["GET"])
 def about():
-    model = ViewModel()
+    model = build_viewmodel()
     model.title = "About"
     
     return render_template("about.html", model = model)
 
 @webapp.route("/status", methods=["GET"])
 def status():
-    model = ViewModel()
+    model = build_viewmodel()
     model.title = "Status"
 
     if config.ATTACH_TO_BROWSER:
@@ -50,7 +51,7 @@ def status():
 def build_index():
     repository = webapp.repository
 
-    model = ViewModel()
+    model = build_viewmodel()
     model.items = [{ "index": ix, "item": item, "url": item.build_relative_url() } for (ix, item) in enumerate(repository.items) ]  
     model.item_count = len(model.items)
 
@@ -59,6 +60,26 @@ def build_index():
 @webapp.route("/", methods=["GET"])
 def index():
     return build_index()
+
+@webapp.route("/login", methods=["GET", "POST"])
+def login():
+    model = build_viewmodel()
+
+    if request.method == "POST":
+        u = request.form.get("username")
+        pw = request.form.get("pw")
+
+        if authenticate(str(u), str(pw)):
+            session['username'] = u
+            return redirect(url_for('index'))
+
+    return render_template("login.html", model = model)
+
+@webapp.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 @webapp.route("/uploader", methods = ["POST"])
 def upload_file():
@@ -129,7 +150,10 @@ def add_html():
 
 @webapp.route("/new", methods=["GET"])
 def new_item():
-    model = ViewModel()
+    if not 'username' in session:
+        return redirect(url_for("login"))
+
+    model = build_viewmodel()
 
     staticfolder = f"{STATIC_FOLDER}{config.IMAGES_VIRTUAL_FOLDER}"
     model.available_images = sorted([f for f in listdir(staticfolder) if isfile(join(staticfolder, f)) and isimagefile(f)])
@@ -143,7 +167,7 @@ def htmlfile(filename: str):
 
 @webapp.route("/image_centered/<image>/<bgcolor>")
 def image_centered(image: str, bgcolor: str):
-    model = ViewModel()
+    model = build_viewmodel()
 
     model.background_color = bgcolor
     model.image_name = config.IMAGES_VIRTUAL_FOLDER + image
@@ -152,7 +176,7 @@ def image_centered(image: str, bgcolor: str):
 
 @webapp.route("/image_fullscreen/<image>/<bgcolor>")
 def image_fs(image: str, bgcolor: str):
-    model = ViewModel()
+    model = build_viewmodel()
 
     model.background_color = bgcolor
     model.image_name = config.IMAGES_VIRTUAL_FOLDER + image
@@ -199,3 +223,8 @@ def isimagefile(filename):
     validextension = [".png", ".jpeg", ".jpg", ".gif"]
     ext = filename[filename.rfind("."):]
     return ext in validextension
+
+def build_viewmodel():
+    model = ViewModel()
+    model.authenticated = 'username' in session
+    return model
