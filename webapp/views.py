@@ -1,10 +1,10 @@
+import hashlib
 from webapp import webapp
 from flask import render_template, send_from_directory, request, redirect, url_for, make_response, abort, session
 from werkzeug.utils import secure_filename
 from logging import getLogger
 from os import listdir
 from os.path import isfile, join, realpath, splitext
-from simplepam import authenticate
 from .viewmodel import ViewModel
 import config
 
@@ -63,26 +63,30 @@ def index():
 
 @webapp.route("/login", methods=["GET", "POST"])
 def login():
+    if authenticated():
+        return redirect(url_for("index"))
+
     model = build_viewmodel()
 
     if request.method == "POST":
         u = request.form.get("username")
         pw = request.form.get("pw")
 
-        if authenticate(str(u), str(pw)):
-            session['username'] = u
+        if signin(str(u), str(pw)):
             return redirect(url_for('index'))
 
     return render_template("login.html", model = model)
 
 @webapp.route('/logout')
 def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
+    signout()
     return redirect(url_for('index'))
 
 @webapp.route("/uploader", methods = ["POST"])
 def upload_file():
+    if not authenticated():
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         uploaded_file = request.files["file"]
         filename = secure_filename(uploaded_file.filename)
@@ -96,6 +100,8 @@ def upload_file():
 
 @webapp.route("/add_url", methods=["POST"])
 def add_url():
+    if not authenticated():
+        return redirect(url_for("login"))
 
     if request.method == "POST":
         url = request.form.get("url")
@@ -113,6 +119,8 @@ def add_url():
 
 @webapp.route("/add_image", methods=["POST"])
 def add_image():
+    if not authenticated():
+        return redirect(url_for("login"))
 
     if request.method == "POST":
         image_name = request.form.get("imagename")
@@ -133,6 +141,8 @@ def add_image():
 
 @webapp.route("/add_html", methods=["POST"])
 def add_html():
+    if not authenticated():
+        return redirect(url_for("login"))
 
     if request.method == "POST":
         html_name = request.form.get("htmlname")
@@ -150,7 +160,7 @@ def add_html():
 
 @webapp.route("/new", methods=["GET"])
 def new_item():
-    if not 'username' in session:
+    if not authenticated():
         return redirect(url_for("login"))
 
     model = build_viewmodel()
@@ -185,6 +195,8 @@ def image_fs(image: str, bgcolor: str):
 
 @webapp.route("/item_delete", methods=["POST"])
 def item_delete():
+    if not authenticated():
+        return None
     data = request.json
     index = data["index"]
     repository = webapp.repository
@@ -193,6 +205,8 @@ def item_delete():
 
 @webapp.route("/item_up", methods=["POST"])
 def item_up():
+    if not authenticated():
+        return None
     data = request.json
     index = data["index"]
     repository = webapp.repository
@@ -201,6 +215,8 @@ def item_up():
 
 @webapp.route("/item_down", methods=["POST"])
 def item_down():
+    if not authenticated():
+        return None
     data = request.json
     index = data["index"]
     repository = webapp.repository
@@ -209,6 +225,8 @@ def item_down():
 
 @webapp.route("/item_activate", methods=["POST"])
 def item_activate():
+    if not authenticated():
+        return None
     data = request.json
     index = data["index"]
     webapp.kiosk.activate_by_index(index)
@@ -226,5 +244,26 @@ def isimagefile(filename):
 
 def build_viewmodel():
     model = ViewModel()
-    model.authenticated = 'username' in session
+    model.authenticated = authenticated()
+    model.username = authenticated_user()
     return model
+
+def signin(username: str, password: str) -> bool:
+    if username in config.USERS:
+        hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+        if config.USERS[username] == hash:
+            session["username"] = username
+            session["authenticated"] = True
+            return True
+
+    return False
+
+def signout():
+    session.pop("username", None)
+    session.pop("authenticated", None)
+
+def authenticated() -> bool:
+    return ("authenticated" in session) and (session["authenticated"] == True)
+
+def authenticated_user() -> str:
+    return None if not authenticated() else session["username"]

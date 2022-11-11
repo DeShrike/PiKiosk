@@ -18,3 +18,8 @@ REPOSITORY_FILE = "repository.json"
 # The virtual folder for the images. Do not change unless you know what you are doing.
 IMAGES_VIRTUAL_FOLDER = "assets/"
 
+# Default username password is admin / admin
+# Use adduser.py to create key for a new user, and add it to this dictionary.
+USERS = {
+    "admin": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+}

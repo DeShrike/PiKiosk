@@ -39,7 +39,7 @@
 			    </div>
 				{% if model.authenticated %}
 			    <div class="ms-menu-logo">
-			    	<p><a href="%% url_for('logout') %%">Logout</a></p>
+			    	<p><a href="%% url_for('logout') %%">Logout %% model.username %%</a></p>
 			    </div>
 				{% else %}
 			    <div class="ms-menu-logo">
