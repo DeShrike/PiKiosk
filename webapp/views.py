@@ -74,6 +74,9 @@ def login():
 
         if signin(str(u), str(pw)):
             return redirect(url_for('index'))
+        else:
+            model.username = u
+            model.message = "Unknown username or bad password."
 
     return render_template("login.html", model = model)
 

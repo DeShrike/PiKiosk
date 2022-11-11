@@ -10,7 +10,8 @@ class ViewModel():
         self.available_htmls = None
         self.status = None
         self.authenticated = False
-        self.username = None
+        self.username = ""
+        self.message = None
 
     def __repr__(self):
         s = f"Title: {self.title}\n"

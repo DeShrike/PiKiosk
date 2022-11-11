@@ -27,7 +27,7 @@ Pi Kiosk
 				<div class="col-sm">
 					<div class="ms-form-group">
 						<label for="username">Username</label>
-						<input type="text" placeholder="" id="username" name="username" />
+						<input type="text" placeholder="" id="username" name="username" value="%% model.username %%" />
 					</div>
 				</div>
 			</div>
@@ -45,6 +45,12 @@ Pi Kiosk
 				</div>
 			</div>
 		</form>
+		
+		{% if model.message %}
+		<div class="ms-alert ms-outline-danger">
+			%% model.message %%
+		</div>
+		{% endif %}
 	</div>
 </div>
 

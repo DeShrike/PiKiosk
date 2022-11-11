@@ -23,7 +23,10 @@
 	</head>
 	<body class="dark">
 
+		<!-- http://v1.minstyle.io/docs/menu/ -->
+
 		<div class="ms-content">
+
 			<div class="ms-menu">
 			    <div class="ms-menu-logo">
 			    	<p><a href="%% url_for('index') %%"><img src="%% url_for('static', filename='img/coderdojo-logo.png') %%" alt="Pi Kiosk" /></a></p>
@@ -31,22 +34,23 @@
 			    <div class="ms-menu-logo">
 			    	<p>Pi Kiosk</p>
 			    </div>
-			    <div class="ms-menu-logo">
-			    	<p><a href="%% url_for('about') %%">About</a></p>
-			    </div>
-			    <div class="ms-menu-logo">
-			    	<p><a href="%% url_for('status') %%">Status</a></p>
-			    </div>
-				{% if model.authenticated %}
-			    <div class="ms-menu-logo">
-			    	<p><a href="%% url_for('logout') %%">Logout %% model.username %%</a></p>
-			    </div>
-				{% else %}
-			    <div class="ms-menu-logo">
-			    	<p><a href="%% url_for('login') %%">Login</a></p>
-			    </div>
-				{% endif %}
+
+				<input type="checkbox" id="ms-menu-toggle">
+				<label for="ms-menu-toggle" class="ms-menu-icon"><i class="fa fa-bars"></i></label>
+	
+			    <div class="ms-menu-link">
+					<ul>
+						<a href="%% url_for('about') %%"><li>About</li></a>
+						<a href="%% url_for('status') %%"><li>Status</li></a>
+						{% if model.authenticated %}
+							<a href="%% url_for('logout') %%"><li>Logout <span class="ms-label ms-outline-info">%% model.username %%</span></li></a>							
+						{% else %}
+							<a href="%% url_for('login') %%"><li>Login</li></a>
+						{% endif %}
+					</ul>
+				</div>
 			</div>
+
 		</div>
 
 		<div class="container main-body">
