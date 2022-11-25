@@ -31,6 +31,16 @@ def screenshot():
     
     return response
 
+@webapp.route("/reboot", methods=["POST"])
+def reboot():
+    # TODO
+    return "", 200
+
+@webapp.route("/shutdown", methods=["POST"])
+def shutdown():
+    # TODO
+    return "", 200
+
 @webapp.route("/about", methods=["GET"])
 def about():
     model = build_viewmodel()
@@ -113,6 +123,8 @@ def add_url():
         duration = request.form.get("duration")
         if duration is None or duration.isnumeric() is False:
             duration = 60
+        else:
+            duration = int(duration)
 
         repository = webapp.repository
         repository.add(url, "url", duration, False, None)
@@ -132,6 +144,8 @@ def add_image():
         duration = request.form.get("duration")
         if duration is None or duration.isnumeric() is False:
             duration = 60
+        else:
+            duration = int(duration)
         bgcolor = request.form.get("bgcolor")
         if bgcolor is None or bgcolor == "":
             bgcolor = "#FFFFFF"
@@ -154,6 +168,8 @@ def add_html():
         duration = request.form.get("duration")
         if duration is None or duration.isnumeric() is False:
             duration = 60
+        else:
+            duration = int(duration)
 
         repository = webapp.repository
         repository.add(html_name, "html", duration, False, None)
@@ -248,7 +264,7 @@ def isimagefile(filename):
 def build_viewmodel():
     model = ViewModel()
     model.authenticated = authenticated()
-    model.username = authenticated_user()
+    model.username = authenticated_user() if authenticated_user() is not None else ""
     return model
 
 def signin(username: str, password: str) -> bool:
