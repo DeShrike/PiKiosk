@@ -7,6 +7,7 @@ from os import listdir
 from os.path import isfile, join, realpath, splitext
 from .viewmodel import ViewModel
 import config
+import os
 
 STATIC_FOLDER = "./webapp/static/"
 
@@ -33,12 +34,18 @@ def screenshot():
 
 @webapp.route("/reboot", methods=["POST"])
 def reboot():
-    # TODO
+    if not authenticated():
+        return "Not allowed", 401
+
+    os.system("sudo shutdown -r 1")
     return "", 200
 
 @webapp.route("/shutdown", methods=["POST"])
 def shutdown():
-    # TODO
+    if not authenticated():
+        return "Not allowed", 401
+
+    os.system("sudo shutdown -h 1")
     return "", 200
 
 @webapp.route("/about", methods=["GET"])
@@ -57,6 +64,19 @@ def status():
         model.status = webapp.kiosk.get_status()
 
     return render_template("status.html", model = model)
+
+@webapp.route("/settings", methods=["GET"])
+def settings():
+    if not authenticated():
+        return redirect(url_for("login"))
+
+    users = webapp.users
+
+    model = build_viewmodel()
+    model.title = "Settings"
+    model.users = [{ "index": ix, "user": user } for (ix, user) in enumerate(users.users) ]  
+
+    return render_template("settings.html", model = model)
 
 def build_index():
     repository = webapp.repository

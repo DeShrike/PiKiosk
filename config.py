@@ -15,6 +15,9 @@ ATTACH_TO_BROWSER = True
 # The name of the file containing the items to display on the kiosk. Only edit this file manually if you know what you are doing.
 REPOSITORY_FILE = "repository.json"
 
+# The name of the file containing the user accounts.
+USERS_FILE = "users.json"
+
 # The virtual folder for the images. Do not change unless you know what you are doing.
 IMAGES_VIRTUAL_FOLDER = "assets/"
 

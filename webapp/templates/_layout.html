@@ -40,9 +40,11 @@
 	
 			    <div class="ms-menu-link">
 					<ul>
+						<a href="%% url_for('index') %%"><li><i class="fa-solid fa-house"></i></li></a>
 						<a href="%% url_for('about') %%"><li>About</li></a>
 						<a href="%% url_for('status') %%"><li>Status</li></a>
 						{% if model.authenticated %}
+							<a href="%% url_for('settings') %%"><li>Settings</li></a>
 							<a href="%% url_for('logout') %%"><li>Logout <span class="ms-label ms-outline-info">%% model.username %%</span></li></a>							
 						{% else %}
 							<a href="%% url_for('login') %%"><li>Login</li></a>

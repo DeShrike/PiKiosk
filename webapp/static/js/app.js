@@ -30,22 +30,20 @@ function show_ss() {
     $(".js-ss-img").show();
 }
 
-function init_status_page(screenshoturl, rebooturl, shutdownurl) {
+function init_settings_page(rebooturl, shutdownurl) {
     reboot_url = rebooturl;
     shutdown_url = shutdownurl;
-
-    $(".js-show-ss-btn").on("click", () => {
-        $(".js-show-ss-btn").hide();
-        $(".js-loading-ss").show();
-        $(".js-ss-img").attr("src", screenshoturl)
-    });
 
     $(".js-reboot-btn").on("click", () => {
         $(".js-reboot-btn").hide();
         $(".js-shutdown-btn").hide();
 
         setTimeout(() => { $(".js-confirm-reboot-btn").show(); }, 1000);
-        setTimeout(() => { $(".js-confirm-reboot-btn").hide(); }, 10000);
+        setTimeout(() => { 
+            $(".js-confirm-reboot-btn").hide(); 
+            $(".js-reboot-btn").show();
+            $(".js-shutdown-btn").show();
+        }, 10000);
     });
 
     $(".js-shutdown-btn").on("click", () => {
@@ -53,11 +51,25 @@ function init_status_page(screenshoturl, rebooturl, shutdownurl) {
         $(".js-shutdown-btn").hide();
 
         setTimeout(() => { $(".js-confirm-shutdown-btn").show(); }, 1000);
-        setTimeout(() => { $(".js-confirm-shutdown-btn").hide(); }, 10000);
+        setTimeout(() => { 
+            $(".js-confirm-shutdown-btn").hide(); 
+            $(".js-reboot-btn").show();
+            $(".js-shutdown-btn").show();
+        }, 10000);
     });
 
     $(".js-confirm-shutdown-btn").on("click", handleShutdown);
     $(".js-confirm-reboot-btn").on("click", handleReboot);
+}
+
+function init_status_page(screenshoturl) {
+
+    $(".js-show-ss-btn").on("click", () => {
+        $(".js-show-ss-btn").hide();
+        $(".js-loading-ss").show();
+        $(".js-ss-img").attr("src", screenshoturl)
+    });
+
 }
 
 function handleReboot() {

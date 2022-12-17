@@ -1,0 +1,83 @@
+{% extends '_layout.html' %}
+
+{% block pagetitle %}
+%% model.title %%
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-sm-6">
+        <h1>Users</h1>
+    </div>
+</div>
+
+<div class="row js-partial-update">
+    <div class="col-md-12 col-12">
+
+        <table class="ms-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Last Logon</th>
+                    <th class="ms-text-center">Logon Count</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+				{% for user in model.users: %}
+                <tr>
+                    <td>%% user["user"].username %%</td>
+                    <td>%% user["user"].lastlogon %%</td>
+                    <td class="ms-text-center">%% user["user"].logoncount %%</td>
+					<td class="ms-text-center">
+                        <button type="button" data-index="%% user['index'] %%" class="ms-btn ms-small ms-rounded js-delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+					</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-12">
+        <h1>Danger Zone</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <button type="button" class="ms-btn ms-outline-danger js-reboot-btn">Reboot</button>
+        <button type="button" style="display:none;" class="ms-btn ms-danger js-confirm-reboot-btn">Confirm
+            Reboot</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <button type="button" class="ms-btn ms-outline-danger js-shutdown-btn">Shutdown</button>
+        <button type="button" style="display:none;" class="ms-btn ms-danger js-confirm-shutdown-btn">Confirm
+            Shutdown</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript" src="%% url_for('static', filename='js/app.js') %%"></script>
+
+<script>
+    $(function () {
+        init_settings_page("%% url_for('reboot') %%", "%% url_for('shutdown') %%");
+    }); // => document ready callback
+</script>
+
+{% endblock %}
