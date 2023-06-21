@@ -1,6 +1,7 @@
 import log
 from kiosk import Kiosk
 from repository import Repository
+from users import Users
 import logging
 import config
 import threading
@@ -15,13 +16,16 @@ from webapp import webapp
 def main():
     kiosk = None
     repository = None
+    users = None
 
     try:
         logger.info("Loading repository")
         repository = Repository(config.REPOSITORY_FILE)
-        
-        webapp.repository = repository
+        users = Users(config.USERS_FILE)
 
+        webapp.repository = repository
+        webapp.users = users
+        
         logger.info("Starting Kiosk")
         kiosk = Kiosk(repository)
         if config.ATTACH_TO_BROWSER:

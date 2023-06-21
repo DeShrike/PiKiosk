@@ -15,11 +15,14 @@ ATTACH_TO_BROWSER = True
 # The name of the file containing the items to display on the kiosk. Only edit this file manually if you know what you are doing.
 REPOSITORY_FILE = "repository.json"
 
+# The name of the file containing the user accounts.
+USERS_FILE = "users.json"
+
 # The virtual folder for the images. Do not change unless you know what you are doing.
 IMAGES_VIRTUAL_FOLDER = "assets/"
 
 # Default username password is admin / admin
 # Use adduser.py to create key for a new user, and add it to this dictionary.
 USERS = {
-    "admin": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+    "admin": "82b8e97035f5672864b66f4072d559f076620fd65754860a8173af41ad0e9218"
 }

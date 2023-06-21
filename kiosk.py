@@ -31,7 +31,7 @@ class Kiosk():
     def connect_to_browser(self):
         logger.info("Connecting")
         sleep_step = 0.25
-        wait_seconds = 10
+        wait_seconds = 100
         while wait_seconds > 0:
             try:
                 url = f"http://127.0.0.1:{self.port}/json"

@@ -5,6 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 repository = None
+users = None
 kiosk = None
 
 class CustomFlask(Flask):
